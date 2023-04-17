@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using DrivingApp.Database;
+using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
 using DrivingApp.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DrivingApp.Repositories
@@ -11,11 +14,9 @@ namespace DrivingApp.Repositories
 	public class UserRepository : IUserRepository
 	{
         private readonly DrivingAppContext _context;
-        private readonly IMapper _mapper;
-        public UserRepository(DrivingAppContext context, IMapper mapper)
+        public UserRepository(DrivingAppContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<User> GetAsync(long userId)
@@ -38,6 +39,11 @@ namespace DrivingApp.Repositories
                 return false;
 			}
 
+		}
+
+		public async Task<List<Instructor>> GetInstructorsBySchool(long schoolId)
+		{
+            return await _context.Instructors.Where(ins => ins.SchoolId == schoolId).ToListAsync();
 		}
 	}
 }

@@ -6,4 +6,6 @@ export const addSchool = (data) => axios.post(`${config.baseUrl}/api/school`, da
 
 export const getAllSchools = () => axios.get(`${config.baseUrl}/api/school`)
 
-export const test = (token) => axios.get(`${config.baseUrl}/api/school/test`, { headers: authHeader() })
+export const getSchool = (id) => axios.get(`${config.baseUrl}/api/school/${id}`, { headers: authHeader() })
+
+export const test = () => axios.get(`${config.baseUrl}/api/school/test`, { headers: authHeader() })

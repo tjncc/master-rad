@@ -1,4 +1,6 @@
-﻿using DrivingApp.Model;
+﻿using DrivingApp.Dto;
+using DrivingApp.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DrivingApp.Interface.Repositories
@@ -8,5 +10,7 @@ namespace DrivingApp.Interface.Repositories
 		Task<User> GetAsync(long userId);
 
 		Task<bool> VerifyAsync(long id);
+
+		Task<List<Instructor>> GetInstructorsBySchool(long schoolId);
 	}
 }

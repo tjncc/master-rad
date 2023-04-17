@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
+using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
 using DrivingApp.Interface.Services;
 using DrivingApp.Model;
@@ -26,6 +28,12 @@ namespace DrivingApp.Services
 		public async Task<bool> VerifyAsync(long userId)
 		{
 			return await _userRepository.VerifyAsync(userId);
+		}
+
+		public async Task<List<InstructorResponseDto>> GetInstructorsBySchool(long schoolId)
+		{
+			var instructors = await _userRepository.GetInstructorsBySchool(schoolId);
+			return _mapper.Map<List<InstructorResponseDto>>(instructors);
 		}
 	}
 }

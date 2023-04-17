@@ -7,6 +7,8 @@ import LoginPage from './components/registration/LoginPage'
 import SchoolRegistration from './components/registration/SchoolRegistration'
 import UserVerification from './components/registration/UserVerification'
 import Test from './components/registration/Test'
+import SchoolPage from './components/pages/SchoolPage'
+import AllSchools from './components/pages/AllSchools'
 
 function App() {
   return (
@@ -17,6 +19,9 @@ function App() {
         <Route exact path="/login" element={<LoginPage />} />
         <Route exact path="/school/add" element={<><Header/><SchoolRegistration/></>} />
         <Route exact path="/user/verified/:id"  element={<UserVerification />} />
+        <Route exact path="/school/:id"  element={<><Header/><SchoolPage/></>} />
+        <Route exact path="/schools"  element={<><Header/><AllSchools/></>} />
+
         <Route exact path="/test"  element={<><Header/><Test/></>} />
       </Routes>
     </BrowserRouter>

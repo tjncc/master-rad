@@ -10,4 +10,6 @@ export const test = () => axios.get(`${config.baseUrl}/api/Auth/test`)
 
 export const verify = (id) => axios.post(`${config.baseUrl}/api/user/verify/${id}`)
 
-export const getCurrentUser = () => JSON.parse(localStorage.getItem('jwtToken'));
+export const getCurrentUser = () => JSON.parse(localStorage.getItem('jwtToken'))
+
+export const getInstructorsBySchool = (schoolId, data) => axios.get(`${config.baseUrl}/api/User/instructors/school/${schoolId}`, data)
