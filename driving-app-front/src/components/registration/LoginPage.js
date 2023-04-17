@@ -159,7 +159,7 @@ export default function LoginPage() {
                       message={alert.message}
                       severity={alert.severity}
                     />
-                  ) : <></> }
+                  ) : <></>}
                 </Grid>
               </Grid>
             </Box>

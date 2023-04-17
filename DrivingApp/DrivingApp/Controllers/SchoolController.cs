@@ -12,7 +12,6 @@ namespace DrivingApp.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize]
 	public class SchoolController : Controller
 	{
 		private readonly ISchoolService _schoolService;
@@ -27,7 +26,7 @@ namespace DrivingApp.Controllers
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-		public async Task<ActionResult<SchoolDto>> GetSchool([FromHeader] long id)
+		public async Task<ActionResult<SchoolDto>> GetSchool(long id)
 		{
 			SchoolDto school = await _schoolService.GetAsync(id);
 			return Ok(school);

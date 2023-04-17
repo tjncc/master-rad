@@ -16,7 +16,7 @@ export default function Test() {
   const handleClick = () => {
     console.log('Button clicked!');
     console.log(token);
-    test(token)
+    test()
       .then(response => {
         console.log(response.data);
       })
