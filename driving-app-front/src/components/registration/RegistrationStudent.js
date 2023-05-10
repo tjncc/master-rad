@@ -90,7 +90,7 @@ export default function SignInSide() {
     //   return
     // }
 
-    if (data.password !== data.confirmPassword) {
+    if (data.password !== confirmPassword) {
       setAlert({
         open: true,
         message: 'Password and confirmed password do not match!',
@@ -108,6 +108,8 @@ export default function SignInSide() {
             message: 'Registration successful',
             severity: 'success',
           });
+          setTimeout(2000)
+          navigate('/')
         }
       })
       .catch((error) => {
