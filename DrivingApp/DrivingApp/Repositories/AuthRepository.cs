@@ -113,7 +113,7 @@ namespace DrivingApp.Repositories
                 var examiner = new Examiner
                 {
                     PasswordSalt = hmac.Key,
-                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registrationRequest.Password)),
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registrationRequest.Jmbg.ToString())),
                     Name = registrationRequest.Name,
                     LastName = registrationRequest.LastName,
                     Email = registrationRequest.Email,
@@ -130,7 +130,7 @@ namespace DrivingApp.Repositories
                 var instructor = new Instructor
                 {
                     PasswordSalt = hmac.Key,
-                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registrationRequest.Password)),
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registrationRequest.Jmbg.ToString())),
                     Name = registrationRequest.Name,
                     LastName = registrationRequest.LastName,
                     Email = registrationRequest.Email,
@@ -180,9 +180,12 @@ namespace DrivingApp.Repositories
             var url = "http://localhost:3000/user/verified/" + id;
             var name = registrationRequest.Name;
             var subject = "Verify your email";
+            var isInstructor = registrationRequest.Role.Equals(Role.Instructor);
+            var isExaminer = registrationRequest.Role.Equals(Role.Examiner);
+
             SendGridMessage sendGridMessage = new SendGridMessage()
             {
-                Subject = "Verify your email",
+                Subject = "Driving App Verification",
                 From = new EmailAddress("tamara.jancic@hotmail.com", "Tamara"),
                 ReplyTo = new EmailAddress("tamara.jancic@hotmail.com"),
                 TemplateId = "d-2cef7f2c34c34998a06e5753bc699961",
@@ -198,7 +201,9 @@ namespace DrivingApp.Repositories
                         {
                             { "name", name },
                             { "url", url },
-                            { "subject", subject }
+                            { "subject", subject },
+							{ "isInstructor", isInstructor.ToString().ToLower() },
+                            { "isExaminer", isExaminer.ToString().ToLower() }
                         }
                     }
                 }

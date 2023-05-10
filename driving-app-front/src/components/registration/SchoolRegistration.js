@@ -70,7 +70,7 @@ export default function SchoolRegistration() {
 
     addSchool(data)
       .then(response => {
-        
+
         if (response) {
           handleSuccess();
         }
@@ -88,142 +88,142 @@ export default function SchoolRegistration() {
 
   return (
     <ThemeProvider theme={appColors}>
-<Container component="main" maxWidth="md">
-  <CssBaseline />
-  <Box
-    sx={{
-      marginTop: 8,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}
-  >
-    <Avatar sx={{ m: 0.5, bgcolor: '#8E9775' }}>
-      <SchoolOutlinedIcon />
-    </Avatar>
-    <Typography component="h1" variant="h6">
-      Add driving school
-    </Typography>
-    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            id="name"
-            value={name}
-            label="Name"
-            name="name"
-            onChange={e => setName(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            InputProps={{
-              inputProps: {
-                type: 'number',
-                maxLength: 4
-              }
-            }}
-            name="year"
-            value={year}
-            label="Year"
-            type="year"
-            id="year"
-            onChange={e => setYear(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            id="address"
-            value={address}
-            label="Address"
-            name="address"
-            onChange={e => setAddress(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            id="city"
-            value={city}
-            label="City"
-            name="city"
-            onChange={e => setCity(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            id="phoneNumber"
-            value={phoneNumber}
-            label="Phone Number"
-            name="phoneNumber"
-            InputProps={{
-              inputProps: {
-                type: 'number',
-                maxLength: 12
-              }
-            }}
-            onChange={e => setPhoneNumber(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            id="email"
-            value={email}
-            label="Email"
-            name="email"
-            onChange={e => setEmail(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth
-            id="description"
-            value={description}
-            label="Description"
-            name="Description"
-            onChange={e => setDescription(e.target.value)}
-            multiline
-            rows={4}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="lightGreen"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Create
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          {alert.open ? (
-            <AlertComponent
-              open={alert.open}
-              message={alert.message}
-              severity={alert.severity}
-            />
-          ) : (
-            <></>
-          )}
-        </Grid>
-      </Grid>
-    </Box>
-  </Box>
-</Container>
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 0.5, bgcolor: '#8E9775' }}>
+            <SchoolOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h6">
+            Add driving school
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="name"
+                  value={name}
+                  label="Name"
+                  name="name"
+                  onChange={e => setName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  InputProps={{
+                    inputProps: {
+                      type: 'number',
+                      maxLength: 4
+                    }
+                  }}
+                  name="year"
+                  value={year}
+                  label="Year"
+                  type="year"
+                  id="year"
+                  onChange={e => setYear(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="address"
+                  value={address}
+                  label="Address"
+                  name="address"
+                  onChange={e => setAddress(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="city"
+                  value={city}
+                  label="City"
+                  name="city"
+                  onChange={e => setCity(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="phoneNumber"
+                  value={phoneNumber}
+                  label="Phone Number"
+                  name="phoneNumber"
+                  InputProps={{
+                    inputProps: {
+                      type: 'number',
+                      maxLength: 12
+                    }
+                  }}
+                  onChange={e => setPhoneNumber(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  value={email}
+                  label="Email"
+                  name="email"
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="description"
+                  value={description}
+                  label="Description"
+                  name="Description"
+                  onChange={e => setDescription(e.target.value)}
+                  multiline
+                  rows={4}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="lightGreen"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Create
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                {alert.open ? (
+                  <AlertComponent
+                    open={alert.open}
+                    message={alert.message}
+                    severity={alert.severity}
+                  />
+                ) : (
+                  <></>
+                )}
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
     </ThemeProvider>
   );
 }

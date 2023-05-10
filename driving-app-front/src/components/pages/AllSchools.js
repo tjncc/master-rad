@@ -84,6 +84,10 @@ export default function AllSchools() {
               <div className="schoolDetailsDiv">
                 <p className="selectedSchoolTitle">{selectedSchool.name}</p>
                 <p className="selectedSchoolYear">{selectedSchool.year}</p>
+                <p className="selectedSchoolDetails">{selectedSchool.address}</p>
+                <p className="selectedSchoolDetails">{selectedSchool.email}</p>
+                <p className="selectedSchoolDetails">{selectedSchool.phoneNumber}</p>
+                <p className="selectedSchoolDetails">{selectedSchool.description}</p>
                 <Button variant="outlined" onClick={() => openSchoolPage(selectedSchool.id)}>School details page</Button>
               </div>
             ) : (

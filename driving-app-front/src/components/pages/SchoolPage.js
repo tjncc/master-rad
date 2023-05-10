@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useParams } from "react-router-dom";
-import { Grid, Paper, Typography, Button } from '@material-ui/core';
+import { Grid, Paper, Typography } from '@material-ui/core';
 import { getSchool } from '../../services/schoolService';
 import { getInstructorsBySchool } from '../../services/userService';
-import Stack from '@mui/material/Stack';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { appColors } from '../../css/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button'
 import {
   List,
   ListItem,
@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { CATEGORIES } from '../../helpers/categoryEnum'
 import '../../css/SchoolPage.css'
+import InstructorModal from '../registration/InstructorModal';
 
 export default function SchoolPage() {
   const { id } = useParams();
@@ -22,6 +23,7 @@ export default function SchoolPage() {
   const [school, setSchool] = React.useState(null);
   const [instructors, setInstructors] = React.useState([]);
   const [selectedInstructor, setSelectedInstructor] = React.useState(null);
+  const [openRegistrationDialog, setOpenRegistrationDialog] = React.useState(false);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -39,13 +41,30 @@ export default function SchoolPage() {
     console.log(instructors)
   }, [id]);
 
+  const handleOpenRegistrationDialog = () => {
+    setOpenRegistrationDialog(true);
+  }
+
+  const handleCloseRegistrationDialog = () => {
+    setOpenRegistrationDialog(false);
+  }
+
+  async function updateInstructors() {
+    try {
+      const instructorsResponse = await getInstructorsBySchool(id);
+      setInstructors(instructorsResponse.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ThemeProvider theme={appColors}>
       <div style={{ padding: '1rem' }}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4}>
             {school ? (
-              <Paper style={{ padding: '1rem' }}>
+              <Paper style={{ padding: '1rem', backgroundColor: '#fdfaf0'}}>
                 <div className="schoolTitleDiv">
                   <InfoOutlinedIcon />
                   <Typography variant="h4" gutterBottom>
@@ -76,6 +95,19 @@ export default function SchoolPage() {
                 <Typography variant="body1" gutterBottom>
                   {school.description}
                 </Typography>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button
+                    variant="contained"
+                    color="peach"
+                    sx={{
+                      mt: 3,
+                      mb: 2
+                    }}
+                    onClick={handleOpenRegistrationDialog}>
+                    Add instructor
+                  </Button>
+                  <InstructorModal open={openRegistrationDialog} handleClose={handleCloseRegistrationDialog} schoolName={school.name} schoolId={school.id} onUpdateInstructors={updateInstructors}/>
+                </div>
               </Paper>
             ) : (
               <div></div>
@@ -83,12 +115,12 @@ export default function SchoolPage() {
           </Grid>
 
           <Grid item xs={12} sm={3}>
-            <div style={{ padding: '1rem', maxHeight: '80vh', overflowY: 'auto' }}>
-              <Typography variant="h6" gutterBottom>
+            <div style={{ maxHeight: "85vh", overflow: "auto" }}>
+              <Typography variant="h6" gutterBottom style={{ position: "fixed",  backgroundColor: "white", zIndex: 1 }}>
                 List of instructors in this school
               </Typography>
-              <List>
-                {instructors.map((instructor) => (
+              <List style={{marginTop: '2rem'}}>
+                {instructors && instructors.map((instructor) => (
                   <div key={instructor.id}>
                     <ListItem button onClick={() => setSelectedInstructor(instructor)}>
                       <ListItemText primary={instructor.name} />
@@ -97,26 +129,6 @@ export default function SchoolPage() {
                   </div>
                 ))}
               </List>
-              <div style={{ padding: '1rem' }}>
-                <Typography variant="h7" gutterBottom>
-                  You can add an instructor or examiner to this school.
-                </Typography>
-                <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      mt: 3,
-                      mb: 2,
-                      color: "#8E9775",
-                      "&:hover": {
-                        bgcolor: "#71825A"
-                      }
-                    }}>
-                    Add instructor
-                  </Button>
-                  <Button variant="contained">Add examiner</Button>
-                </Stack>
-              </div>
             </div>
           </Grid>
 
