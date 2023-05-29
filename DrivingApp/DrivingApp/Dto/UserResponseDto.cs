@@ -3,7 +3,7 @@ using DrivingApp.Common.Enum;
 
 namespace DrivingApp.Dto
 {
-	public class InstructorResponseDto
+	public class UserResponseDto
 	{
 		public long? Id { get; set; }
 		public string Name { get; set; }
@@ -14,6 +14,6 @@ namespace DrivingApp.Dto
 		public DateTime DateOfBirth { get; set; }
 		public long Jmbg { get; set; }
 		public Category Category { get; set; }
-		public long SchoolId { get; set; }
+		public long? SchoolId { get; set; }
 	}
 }

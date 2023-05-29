@@ -30,10 +30,21 @@ namespace DrivingApp.Services
 			return await _userRepository.VerifyAsync(userId);
 		}
 
-		public async Task<List<InstructorResponseDto>> GetInstructorsBySchool(long schoolId)
+		public async Task<List<UserResponseDto>> GetInstructorsBySchool(long schoolId)
 		{
 			var instructors = await _userRepository.GetInstructorsBySchool(schoolId);
-			return _mapper.Map<List<InstructorResponseDto>>(instructors);
+			return _mapper.Map<List<UserResponseDto>>(instructors);
+		}
+
+		public async Task<List<UserResponseDto>> GetAllUsersAsync()
+		{
+			var users = await _userRepository.GetAllUsersAsync();
+			return _mapper.Map<List<UserResponseDto>>(users);
+		}
+
+		public void Delete(long id)
+		{
+			_userRepository.Delete(id);
 		}
 	}
 }

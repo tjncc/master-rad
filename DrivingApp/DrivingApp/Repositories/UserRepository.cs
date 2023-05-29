@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DrivingApp.Common.Enum;
 using DrivingApp.Database;
 using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
@@ -45,5 +46,25 @@ namespace DrivingApp.Repositories
 		{
             return await _context.Instructors.Where(ins => ins.SchoolId == schoolId).ToListAsync();
 		}
+
+		public async Task<List<User>> GetAllUsersAsync()
+		{
+			return await _context.Users.Where(u => u.Role != Role.Admin).ToListAsync();
+		}
+
+		public void Delete(long id)
+		{
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+            }
+			else
+			{
+                throw new ArgumentNullException("This user doesn't exists");
+            }
+        }
 	}
 }

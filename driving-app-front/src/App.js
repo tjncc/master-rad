@@ -9,6 +9,7 @@ import UserVerification from './components/registration/UserVerification'
 import Test from './components/registration/Test'
 import SchoolPage from './components/pages/SchoolPage'
 import AllSchools from './components/pages/AllSchools'
+import AllUsers from './components/pages/AllUsers'
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
         <Route exact path="/user/verified/:id"  element={<UserVerification />} />
         <Route exact path="/school/:id"  element={<><Header/><SchoolPage/></>} />
         <Route exact path="/schools"  element={<><Header/><AllSchools/></>} />
-
+        <Route exact path="/users"  element={<><Header/><AllUsers/></>} />
+        
         <Route exact path="/test"  element={<><Header/><Test/></>} />
       </Routes>
     </BrowserRouter>

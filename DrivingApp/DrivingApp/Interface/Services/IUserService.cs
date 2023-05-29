@@ -11,6 +11,10 @@ namespace DrivingApp.Interface.Services
 
 		Task<bool> VerifyAsync(long userId);
 
-		Task<List<InstructorResponseDto>> GetInstructorsBySchool(long schoolId);
+		Task<List<UserResponseDto>> GetInstructorsBySchool(long schoolId);
+
+		Task<List<UserResponseDto>> GetAllUsersAsync();
+
+		void Delete(long id);
 	}
 }

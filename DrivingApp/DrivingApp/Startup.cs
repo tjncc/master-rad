@@ -98,7 +98,7 @@ namespace DrivingApp
 			{
 				mc.AddProfile(new StudentProfile());
 				mc.AddProfile(new SchoolProfile());
-				mc.AddProfile(new InstructorProfile());
+				mc.AddProfile(new UserProfile());
 			});
 
 			IMapper mapper = mapperConfig.CreateMapper();
