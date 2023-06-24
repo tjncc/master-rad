@@ -20,8 +20,7 @@ import { register } from '../../services/userService'
 import { CATEGORIES } from '../../helpers/categoryEnum'
 import AlertComponent from '../../helpers/AlertComponent'
 
-export default function InstructorModal(props) {
-  const { schoolName, schoolId } = props;
+export default function ExaminerModal(props) {
   const [name, setName] = React.useState('')
   const [lastName, setLastName] = React.useState('')
   const [email, setEmail] = React.useState('')
@@ -43,14 +42,13 @@ export default function InstructorModal(props) {
       message: '',
       severity: '',
     })
-    props.onUpdateInstructors();
     props.handleClose();
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
-      name, lastName, email, jmbg, phoneNumber, category, dateOfBirth, role: 1, schoolId
+      name, lastName, email, jmbg, phoneNumber, category, dateOfBirth, role: 3
     }
 
     setAlert({
@@ -59,7 +57,7 @@ export default function InstructorModal(props) {
       severity: '',
     })
 
-    if (!data.name || !data.lastName || !data.jmbg || !data.email) {
+    if (!data.name || !data.lastName || !data.jmbg || !data.email || !data.category) {
       setAlert({
         open: true,
         message: 'Please fill in all necessary fields!',
@@ -71,13 +69,14 @@ export default function InstructorModal(props) {
     register(data)
       .then((response) => {
         if (response) {
-          props.handleRegister();
+          props.onSuccessful(true);
+          props.handleConfirm();
           handleCloseModal();
         }
       })
       .catch((error) => {
         console.log(error);
-        const errorData = error.response?.data && error.response?.data.length < 100 ? error.response?.data : 'Something went wrong'
+        const errorData = error.response.data && error.response.data.length < 100 ? error.response.data : 'Something went wrong'
         setAlert({
           open: true,
           message: errorData,
@@ -110,7 +109,7 @@ export default function InstructorModal(props) {
                 <PersonOutlineOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h6">
-                Register Instructor
+                Register Examiner
               </Typography>
               <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
@@ -149,14 +148,6 @@ export default function InstructorModal(props) {
                       name="email"
                       autoComplete="email"
                       onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="Driving School"
-                      value={schoolName}
-                      disabled
-                      fullWidth
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>

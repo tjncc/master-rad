@@ -12,5 +12,9 @@ namespace DrivingApp.Interface.Repositories
 		Task<bool> VerifyAsync(long id);
 
 		Task<List<Instructor>> GetInstructorsBySchool(long schoolId);
+
+		Task<List<User>> GetAllUsersAsync();
+
+		void Delete(long id);
 	}
 }

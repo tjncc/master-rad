@@ -16,6 +16,7 @@ import {
 import { CATEGORIES } from '../../helpers/categoryEnum'
 import '../../css/SchoolPage.css'
 import InstructorModal from '../registration/InstructorModal';
+import AlertComponent from '../../helpers/AlertComponent';
 
 export default function SchoolPage() {
   const { id } = useParams();
@@ -24,6 +25,7 @@ export default function SchoolPage() {
   const [instructors, setInstructors] = React.useState([]);
   const [selectedInstructor, setSelectedInstructor] = React.useState(null);
   const [openRegistrationDialog, setOpenRegistrationDialog] = React.useState(false);
+  const [alert, setAlert] = React.useState({ open: false, message: '', severity: '' })
 
   React.useEffect(() => {
     async function fetchData() {
@@ -45,6 +47,20 @@ export default function SchoolPage() {
     setOpenRegistrationDialog(true);
   }
 
+  const handleRegisterDialog = () => {
+    setAlert({
+      open: false,
+      message: '',
+      severity: '',
+    });
+    setAlert({
+      open: true,
+      message: 'Registration successful',
+      severity: 'success',
+    });
+    setOpenRegistrationDialog(false);
+  }
+
   const handleCloseRegistrationDialog = () => {
     setOpenRegistrationDialog(false);
   }
@@ -64,7 +80,7 @@ export default function SchoolPage() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4}>
             {school ? (
-              <Paper style={{ padding: '1rem', backgroundColor: '#fdfaf0'}}>
+              <Paper style={{ padding: '1rem', backgroundColor: '#fdfaf0' }}>
                 <div className="schoolTitleDiv">
                   <InfoOutlinedIcon />
                   <Typography variant="h4" gutterBottom>
@@ -106,7 +122,12 @@ export default function SchoolPage() {
                     onClick={handleOpenRegistrationDialog}>
                     Add instructor
                   </Button>
-                  <InstructorModal open={openRegistrationDialog} handleClose={handleCloseRegistrationDialog} schoolName={school.name} schoolId={school.id} onUpdateInstructors={updateInstructors}/>
+                  <InstructorModal open={openRegistrationDialog}
+                    handleClose={handleCloseRegistrationDialog}
+                    handleRegister={handleRegisterDialog}
+                    schoolName={school.name}
+                    schoolId={school.id}
+                    onUpdateInstructors={updateInstructors} />
                 </div>
               </Paper>
             ) : (
@@ -116,10 +137,10 @@ export default function SchoolPage() {
 
           <Grid item xs={12} sm={3}>
             <div style={{ maxHeight: "85vh", overflow: "auto" }}>
-              <Typography variant="h6" gutterBottom style={{ position: "fixed",  backgroundColor: "white", zIndex: 1 }}>
+              <Typography variant="h6" gutterBottom style={{ position: "fixed", backgroundColor: "white", zIndex: 1 }}>
                 List of instructors in this school
               </Typography>
-              <List style={{marginTop: '2rem'}}>
+              <List style={{ marginTop: '2rem' }}>
                 {instructors && instructors.map((instructor) => (
                   <div key={instructor.id}>
                     <ListItem button onClick={() => setSelectedInstructor(instructor)}>
@@ -129,6 +150,13 @@ export default function SchoolPage() {
                   </div>
                 ))}
               </List>
+              {alert.open ? (
+                <AlertComponent
+                  open={alert.open}
+                  message={alert.message}
+                  severity={alert.severity}
+                />
+              ) : <></>}
             </div>
           </Grid>
 
@@ -139,7 +167,7 @@ export default function SchoolPage() {
                   Instructor Details
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
-                  Name: {selectedInstructor.name}
+                  Name: {selectedInstructor.name} {selectedInstructor.lastName}
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
                   Category: {CATEGORIES.find(c => c.value === selectedInstructor.category)?.label}
