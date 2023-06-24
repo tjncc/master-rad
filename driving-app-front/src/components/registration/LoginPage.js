@@ -50,6 +50,7 @@ export default function LoginPage() {
           localStorage.setItem('jwtToken', response.data.token);
           localStorage.setItem('role', response.data.role);
           localStorage.setItem('name', response.data.name);
+          localStorage.setItem('id', response.data.id);
           setAlert({
             open: true,
             message: 'Login successful',

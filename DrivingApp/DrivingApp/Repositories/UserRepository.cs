@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using DrivingApp.Common.Enum;
+﻿using DrivingApp.Common.Enum;
+using DrivingApp.Common.Exceptions;
 using DrivingApp.Database;
 using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
@@ -22,7 +22,12 @@ namespace DrivingApp.Repositories
 
         public async Task<User> GetAsync(long userId)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+			{
+                throw new MyException("User doesn't exists");
+            }
+            return user;
         }
 
 		public async Task<bool> VerifyAsync(long id)
@@ -63,8 +68,39 @@ namespace DrivingApp.Repositories
             }
 			else
 			{
-                throw new ArgumentNullException("This user doesn't exists");
+                throw new MyException("This user doesn't exists");
             }
+        }
+
+		public async Task<User> Update(long id, UserUpdateDto updateUser)
+		{
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+			{
+                throw new MyException("This user doesn't exists");
+            }
+
+             if (user.Role == Role.Student)
+			{
+                Student student = user as Student;
+                student.Email = updateUser.Email;
+                student.PhoneNumber = updateUser.PhoneNumber;
+            } 
+            else if (user.Role == Role.Instructor)
+			{
+                Instructor instructor = user as Instructor;
+                instructor.Email = updateUser.Email;
+                instructor.PhoneNumber = updateUser.PhoneNumber;
+            }
+            else if (updateUser.Role == Role.Examiner)
+            {
+                Examiner examiner = user as Examiner;
+                examiner.Email = updateUser.Email;
+                examiner.PhoneNumber = updateUser.PhoneNumber;
+            }
+            _context.SaveChanges();
+            return user;
         }
 	}
 }

@@ -28,6 +28,7 @@ export default function ButtonAppBar() {
     localStorage.removeItem('name');
     localStorage.removeItem('role');
     setIsLoggedIn(false);
+    navigate("/");
   }
 
   return (
@@ -58,6 +59,7 @@ export default function ButtonAppBar() {
                 {role === 'Admin' ? (<Button color="inherit" onClick={() => navigate("/schools")} >Manage schools</Button>) : (<div></div>)}
                 {role === 'Admin' ? (<Button color="inherit" onClick={() => navigate("/users")} >Manage users</Button>) : (<div></div>)}
                 {role === 'Admin' ? (<Button color="inherit" onClick={() => navigate("/school/add")} >Add school</Button>) : (<div></div>)}
+                {role !== 'Admin' ? (<Button color="inherit" onClick={() => navigate("/profile")} >Profile</Button>) : (<div></div>)}
 
                 <Button color="inherit" variant="outlined" onClick={logOut}>Log out</Button>
               </div>

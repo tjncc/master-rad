@@ -4,6 +4,8 @@ using DrivingApp.Interface.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using DrivingApp.Model;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace DrivingApp.Controllers
 {
@@ -16,6 +18,17 @@ namespace DrivingApp.Controllers
 		public UserController(IUserService userService)
 		{
 			_userService = userService;
+		}
+
+		[HttpGet("{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+		public async Task<ActionResult<UserResponseDto>> GetUser(long id)
+		{
+			var user = await _userService.GetAsync(id);
+			return Ok(user);
 		}
 
 		[HttpPost("verify/{id}")]
@@ -60,6 +73,17 @@ namespace DrivingApp.Controllers
 		{
 			_userService.Delete(id);
 			return Ok();
+		}
+
+		[HttpPut("{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+		public async Task<ActionResult<UserResponseDto>> UpdateUser(long id, [FromBody] UserUpdateDto updateUser)
+		{
+			var user = await _userService.Update(id, updateUser);
+			return Ok(user);
 		}
 	}
 }

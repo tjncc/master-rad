@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using DrivingApp.Common.Exceptions;
 using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
 using DrivingApp.Interface.Services;
 using DrivingApp.Model;
-using DrivingApp.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace DrivingApp.Services
 {
@@ -20,9 +21,10 @@ namespace DrivingApp.Services
 			_mapper = mapper;
 		}
 
-		public Task<User> GetAsync(long userId)
+		public async Task<UserResponseDto> GetAsync(long userId)
 		{
-			throw new System.NotImplementedException();
+			var user = await _userRepository.GetAsync(userId);
+			return _mapper.Map<UserResponseDto>(user);
 		}
 
 		public async Task<bool> VerifyAsync(long userId)
@@ -45,6 +47,17 @@ namespace DrivingApp.Services
 		public void Delete(long id)
 		{
 			_userRepository.Delete(id);
+		}
+
+		public async Task<UserResponseDto> Update(long userId, UserUpdateDto updateUser)
+		{
+			var user = await _userRepository.Update(userId, updateUser);
+			if (user == null)
+			{
+				throw new MyException("User update unsuccessful");
+			}
+
+			return _mapper.Map<UserResponseDto>(user);
 		}
 	}
 }
