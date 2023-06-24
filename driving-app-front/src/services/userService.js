@@ -17,3 +17,7 @@ export const getInstructorsBySchool = (schoolId, data) => axios.get(`${config.ba
 export const getAllUsers = () => axios.get(`${config.baseUrl}/api/User/all`,  {headers: authHeader()} )
 
 export const deleteUser = (id) => axios.delete(`${config.baseUrl}/api/User/${id}`,  {headers: authHeader()} )
+
+export const getUser = (id) => axios.get(`${config.baseUrl}/api/User/${id}`,  {headers: authHeader()} )
+
+export const updateUser = (id, data) => axios.put(`${config.baseUrl}/api/User/${id}`, data,  {headers: authHeader()} )

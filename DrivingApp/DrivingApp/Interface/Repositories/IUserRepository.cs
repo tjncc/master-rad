@@ -16,5 +16,7 @@ namespace DrivingApp.Interface.Repositories
 		Task<List<User>> GetAllUsersAsync();
 
 		void Delete(long id);
+
+		Task<User> Update(long id, UserUpdateDto updateUser);
 	}
 }
