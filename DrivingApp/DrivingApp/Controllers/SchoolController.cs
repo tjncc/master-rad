@@ -54,14 +54,14 @@ namespace DrivingApp.Controllers
 			return Ok(school);
 		}
 
-		[HttpPatch("{id}")]
+		[HttpPut("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-		public async Task<ActionResult<SchoolDto>> PatchSchool([FromHeader] long id, [FromBody] JsonPatchDocument<School> schoolPatch)
+		public async Task<ActionResult<SchoolDto>> PatchSchool(long id, [FromBody] SchoolUpdateDto schoolUpdate)
 		{
-			SchoolDto school = await _schoolService.UpdateAsync(id, schoolPatch);
+			SchoolDto school = await _schoolService.UpdateAsync(id, schoolUpdate);
 			return Ok(school);
 		}
 
@@ -70,9 +70,9 @@ namespace DrivingApp.Controllers
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-		public ActionResult<SchoolDto> RemoveSchool([FromHeader] long id)
+		public async Task<ActionResult<SchoolDto>> RemoveSchool(long id)
 		{
-			_schoolService.DeleteAsync(id);
+			await _schoolService.DeleteAsync(id);
 			return Ok();
 		}
 

@@ -14,7 +14,7 @@ namespace DrivingApp.Interface.Repositories
 
 		Task<School> AddAsync(School school);
 
-		Task<School> UpdateAsync(long id, JsonPatchDocument<School> school);
+		Task<School> UpdateAsync(long id, SchoolUpdateDto schoolUpdate);
 
 		Task DeleteAync(long id);
 	}

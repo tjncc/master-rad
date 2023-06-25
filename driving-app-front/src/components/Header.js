@@ -55,11 +55,11 @@ export default function ButtonAppBar() {
             </div>
           ) :
             (
-              <div >
-                {role === 'Admin' ? (<Button color="inherit" onClick={() => navigate("/schools")} >Manage schools</Button>) : (<div></div>)}
-                {role === 'Admin' ? (<Button color="inherit" onClick={() => navigate("/users")} >Manage users</Button>) : (<div></div>)}
-                {role === 'Admin' ? (<Button color="inherit" onClick={() => navigate("/school/add")} >Add school</Button>) : (<div></div>)}
-                {role !== 'Admin' ? (<Button color="inherit" onClick={() => navigate("/profile")} >Profile</Button>) : (<div></div>)}
+              <div style={{display: "inline"}}>
+                {role === 'Admin' && (<Button color="inherit" onClick={() => navigate("/schools")} >Manage schools</Button>)}
+                {role === 'Admin' && (<Button color="inherit" onClick={() => navigate("/users")} >Manage users</Button>)}
+                {role === 'Admin' && (<Button color="inherit" onClick={() => navigate("/school/add")} >Add school</Button>)}
+                {role !== 'Admin' && (<Button color="inherit" onClick={() => navigate("/profile")} >Profile</Button>)}
 
                 <Button color="inherit" variant="outlined" onClick={logOut}>Log out</Button>
               </div>

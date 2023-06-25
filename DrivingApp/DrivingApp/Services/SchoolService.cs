@@ -46,13 +46,13 @@ namespace DrivingApp.Services
 			return _mapper.Map<SchoolDto>(schoolAdded);
 		}
 
-		public async Task<SchoolDto> UpdateAsync(long id, JsonPatchDocument<School> schoolPatch)
+		public async Task<SchoolDto> UpdateAsync(long id, SchoolUpdateDto schoolUpdate)
 		{
-			School updatedSchool = await _schoolRepo.UpdateAsync(id, schoolPatch);
+			School updatedSchool = await _schoolRepo.UpdateAsync(id, schoolUpdate);
 			
 			if (updatedSchool == null) throw new InvalidOperationException();
 
-			return _mapper.Map<SchoolDto>(updatedSchool.Id);
+			return _mapper.Map<SchoolDto>(updatedSchool);
 		}
 
 		public async Task DeleteAsync(long id)
