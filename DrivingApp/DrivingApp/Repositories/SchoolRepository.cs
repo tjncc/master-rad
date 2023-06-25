@@ -1,4 +1,6 @@
-﻿using DrivingApp.Database;
+﻿using DrivingApp.Common.Exceptions;
+using DrivingApp.Database;
+using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
 using DrivingApp.Model;
 using Microsoft.AspNetCore.JsonPatch;
@@ -38,14 +40,22 @@ namespace DrivingApp.Repositories
 		public async Task DeleteAync(long id)
 		{
 			School school = await GetAsync(id);
-			_context.Remove(school);
+			if (school == null)
+			{
+				throw new MyException("This school doesn't exists");
+			}
+			_context.Schools.Remove(school);
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task<School> UpdateAsync(long id, JsonPatchDocument<School> school)
+		public async Task<School> UpdateAsync(long id, SchoolUpdateDto schoolUpdate)
 		{
-			School oldSchool = await GetAsync(id);
-			school.ApplyTo(oldSchool);
+			School school = await GetAsync(id);
+			school.Name = schoolUpdate.Name;
+			school.Address = schoolUpdate.Address;
+			school.PhoneNumber = schoolUpdate.PhoneNumber;
+			school.Email = schoolUpdate.Email;
+			school.Description = schoolUpdate.Description;
 			await _context.SaveChangesAsync();
 
 			return await GetAsync(id);

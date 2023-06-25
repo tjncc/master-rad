@@ -14,7 +14,7 @@ namespace DrivingApp.Interface.Services
 
 		Task<SchoolDto> AddAsync(SchoolDto schoolDto);
 
-		Task<SchoolDto> UpdateAsync(long id, JsonPatchDocument<School> schoolDto);
+		Task<SchoolDto> UpdateAsync(long id, SchoolUpdateDto schoolUpdate);
 
 		Task DeleteAsync(long id);
 	}

@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { format } from 'date-fns';
 import { ROLES } from '../../helpers/roleEnum';
 import AlertComponent from '../../helpers/AlertComponent';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,8 +82,13 @@ export default function ProfilePage() {
   };
 
   const handleSubmit = () => {
+    setAlert({
+      open: false,
+      message: '',
+      severity: '',
+    });
     if (user) {
-      const userUpdate = {email: user.email, phoneNumber: user.phoneNumber};
+      const userUpdate = { email: user.email, phoneNumber: user.phoneNumber };
       updateUser(user.id, userUpdate)
         .then((response) => {
           setUser(response.data);
@@ -102,6 +108,17 @@ export default function ProfilePage() {
     }
   };
 
+  async function handleCancel() {
+    if (user) {
+      getUser(user.id)
+        .then(response => {
+          setUser(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -148,11 +165,18 @@ export default function ProfilePage() {
                           />
                         </Grid>
                       </Grid>
-                      <Button
-                        style={{ marginTop: '2rem', border: '1px solid #8E9775', backgroundColor: '#8E9775', color: 'white', padding: '1% 5%' }}
-                        onClick={handleSubmit}>
-                        Update
-                      </Button>
+                      <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Button
+                          style={{ margin: '1rem 1rem', border: '1px solid #8E9775', backgroundColor: '#8E9775', color: 'white', padding: '0.5rem 1rem' }}
+                          onClick={handleSubmit}>
+                          Update
+                        </Button>
+                        <Button
+                          style={{ margin: '1rem 1rem', border: '1px solid #8E9775', color: '#8E9775', padding: '0.5rem 1rem' }}
+                          onClick={handleCancel}>
+                          Cancel
+                        </Button>
+                      </div>
                     </Grid>
                   </Grid>
                 ) : (
@@ -164,41 +188,57 @@ export default function ProfilePage() {
         </Grid>
         {user ? (
           <Grid item xs={8}>
-            <Typography style={{fontSize: '30px', margin: '0 40%', color: '#8E9775'}}>
-                  {ROLES.find((r) => r.value === user.role) ? ROLES.find((r) => r.value === user.role).label : ''}
-                </Typography>
+            <Typography style={{ fontSize: '30px', margin: '0 40%', color: '#8E9775' }}>
+              {ROLES.find((r) => r.value === user.role) ? ROLES.find((r) => r.value === user.role).label : ''}
+            </Typography>
             <Grid style={{ margin: '0 2%', color: '#4A503D' }}>
               <Typography
                 style={{ color: '#8E9775', fontSize: '22px' }}>
                 SCHOOL INFO
               </Typography>
-              <Typography variant="h6">Name: {schoolName}</Typography>
+              {user.schoolId &&
+                <Typography variant="h6" gutterBottom>
+                  School name:
+                  <Link
+                    style={{
+                      color: '#2C3024',
+                      fontFamily: 'sans-serif',
+                      textDecoration: 'none',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '20px',
+                      backgroundColor: '#FAF2DA'
+                    }}
+                    to={`/school/${user.schoolId}`}>
+                    {schoolName}
+                  </Link>
+                </Typography>
+              }
               <Typography variant="h6">Category: {CATEGORIES.find((c) => c.value === user.category) ? CATEGORIES.find((c) => c.value === user.category).label : ''}
               </Typography>
             </Grid>
             {user.role === 2 &&
-            <Grid style={{ margin: '0 2%', color: '#4A503D', marginTop: '7%' }}>
-              <Typography
-                style={{ color: '#8E9775', fontSize: '22px' }}>
-                STUDENT INFO
-              </Typography>
-              {!user.passedTheory && <Typography variant="h6"  style={{color: '#E28F83'}}>Not passed theory</Typography>}
-              {user.passedTheory && <Typography variant="h6" style={{color: '#8E9775'}}>Passed theory</Typography>}
-              <Typography variant="h6">Number of remaining classes: {user.numberOfClasses}</Typography>
-              <Typography variant="h6">Number of exam attempts: {user.numberOfExams} </Typography>
-            </Grid>
+              <Grid style={{ margin: '0 2%', color: '#4A503D', marginTop: '7%' }}>
+                <Typography
+                  style={{ color: '#8E9775', fontSize: '22px' }}>
+                  STUDENT INFO
+                </Typography>
+                {!user.passedTheory && <Typography variant="h6" style={{ color: '#E28F83' }}>Not passed theory</Typography>}
+                {user.passedTheory && <Typography variant="h6" style={{ color: '#8E9775' }}>Passed theory</Typography>}
+                <Typography variant="h6">Number of remaining classes: {user.numberOfClasses}</Typography>
+                <Typography variant="h6">Number of exam attempts: {user.numberOfExams} </Typography>
+              </Grid>
             }
           </Grid>
         ) : (
           <div></div>
         )}
         {alert.open ? (
-                  <AlertComponent
-                    open={alert.open}
-                    message={alert.message}
-                    severity={alert.severity}
-                  />
-                ) : <></>}
+          <AlertComponent
+            open={alert.open}
+            message={alert.message}
+            severity={alert.severity}
+          />
+        ) : <></>}
       </Grid>
     </div>
   );
