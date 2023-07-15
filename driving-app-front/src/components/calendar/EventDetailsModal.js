@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EventDetailsModal({ selectedEvent, open, onClose }) {
+export default function EventDetailsModal({ selectedEvent, open, onClose, confirm, refuse }) {
   const classes = useStyles();
 
   return (
@@ -77,17 +77,59 @@ export default function EventDetailsModal({ selectedEvent, open, onClose }) {
             </Grid>
           </Grid>
           <Grid style={{ margin: '0 auto', display: 'block', textAlign: 'center' }}>
-            <Button
-              onClick={onClose}
-              style={{
-                border: '1px solid #8E9775',
-                color: '#8E9775',
-                padding: '0.5rem 1rem',
-                marginTop: '1rem',
-              }}
-            >
-              Cancel
-            </Button>
+            {!selectedEvent.isConfirmed && localStorage.getItem('role') !== 'Student' ? (
+              <Grid>
+                <Button
+                  onClick={confirm}
+                  style={{
+                    border: '1px solid #8E9775',
+                    color: '#8E9775',
+                    padding: '0.5rem 1rem',
+                    marginTop: '1rem',
+                    marginRight: '1rem'
+                  }}
+                >
+                  Confirm
+                </Button>
+                <Button
+                  onClick={refuse}
+                  style={{
+                    border: '1px solid #E28F83',
+                    color: '#E28F83',
+                    padding: '0.5rem 1rem',
+                    marginTop: '1rem'
+                  }}
+                >
+                  Refuse
+                </Button>
+              </Grid>)
+              : (
+                <Grid>
+                <Button
+                  onClick={refuse}
+                  style={{
+                    border: '1px solid #E28F83',
+                    color: '#E28F83',
+                    padding: '0.5rem 1rem',
+                    marginTop: '1rem',
+                    marginRight: '1rem'
+                  }}
+                >
+                  Remove
+                </Button>
+                <Button
+                  onClick={onClose}
+                  style={{
+                    border: '1px solid #8E9775',
+                    color: '#8E9775',
+                    padding: '0.5rem 1rem',
+                    marginTop: '1rem',
+                  }}
+                >
+                  Cancel
+                </Button>
+                </Grid>
+              )}
           </Grid>
         </Grid>
       </div>

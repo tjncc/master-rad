@@ -171,7 +171,7 @@ export default function UserListPage() {
       .catch(error => {
         console.log(error);
       });
-      setOpenConformationDialog(false);
+    setOpenConformationDialog(false);
   }
 
   return (
@@ -288,7 +288,7 @@ export default function UserListPage() {
                   Date of birth: {selectedUser.dateOfBirth && moment(selectedUser.dateOfBirth).format("DD-MM-YYYY")}
                 </Typography>
                 {selectedUser.role === 2 &&
-                  <Grid style={{marginTop: '2rem'}}>
+                  <Grid style={{ marginTop: '2rem' }}>
                     {
                       selectedUser.passedTheory ?
                         (<Grid>
@@ -308,16 +308,16 @@ export default function UserListPage() {
                             CLICK IF {selectedUser.name} PASSED THEORY
                           </Button>
                           <ConformationModal
-                    open={openConformationDialog}
-                    handleClose={handleCloseDialog}
-                    handleConfirm={handlePassTheory}
-                    onChangeUsers={setIsChangedUsers}
-                    isChangedUser={isChangedUsers}
-                    userId={selectedUser.id}
-                    onSuccessful={setIsSuccess}
-                    title={"Confirm theory result"}
-                    text={"Are you sure that this user has passed the theory?"}
-                    buttonText={"Yes"} />
+                            open={openConformationDialog}
+                            handleClose={handleCloseDialog}
+                            handleConfirm={handlePassTheory}
+                            onChangeUsers={setIsChangedUsers}
+                            isChangedUser={isChangedUsers}
+                            userId={selectedUser.id}
+                            onSuccessful={setIsSuccess}
+                            title={"Confirm theory result"}
+                            text={"Are you sure that this user has passed the theory?"}
+                            buttonText={"Yes"} />
                         </Grid>)
                     }
                   </Grid>

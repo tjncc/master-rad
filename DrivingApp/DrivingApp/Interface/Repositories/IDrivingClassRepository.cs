@@ -14,5 +14,9 @@ namespace DrivingApp.Interface.Repositories
 		Task<DrivingClass> AddAsync(DrivingClass drivingClass);
 
 		Task<bool> CheckTimeAsync(DrivingClassDto classDto);
+
+		Task<DrivingClass> ConfirmEvent(long id);
+
+		Task RemoveEvent(long id);
 	}
 }

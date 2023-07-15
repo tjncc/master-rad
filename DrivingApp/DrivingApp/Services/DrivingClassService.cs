@@ -52,5 +52,16 @@ namespace DrivingApp.Services
 			var classes = await _classRepo.GetByUserIdAsync(userId);
 			return _mapper.Map<List<DrivingClassDto>>(classes);
 		}
+
+		public async Task<DrivingClassDto> ConfirmEvent(long id)
+		{
+			var drivingClass = await _classRepo.ConfirmEvent(id);
+			return _mapper.Map<DrivingClassDto>(drivingClass);
+		}
+
+		public async Task RemoveEvent(long id)
+		{
+			await _classRepo.RemoveEvent(id);
+		}
 	}
 }

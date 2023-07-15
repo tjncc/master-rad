@@ -239,6 +239,7 @@ export default function ProfilePage() {
                     {schoolName}
                   </Link>
                 </Typography>
+                { localStorage.getItem('role') === "Student" &&
                 <FormControl fullWidth>
                 <Typography variant="h6" gutterBottom>
                   Instructor: 
@@ -256,6 +257,7 @@ export default function ProfilePage() {
                     </Select>
                     </Typography>
                     </FormControl>
+                  }
                 </Grid>
               }
               <Typography variant="h6">Category: {CATEGORIES.find((c) => c.value === user.category) ? CATEGORIES.find((c) => c.value === user.category).label : ''}

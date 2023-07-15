@@ -7,11 +7,10 @@ import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import NewEventModal from './NewEventModal';
-import { addClass, getClassesByUser } from '../../services/classService';
+import { addClass, getClassesByUser, confirmEvent, removeEvent } from '../../services/classService';
 import AlertComponent from '../../helpers/AlertComponent';
 import { CLASS_TYPES } from '../../helpers/classTypeEnum';
 import { getUser } from '../../services/userService';
-import { Modal, Typography, TextField, Button, Grid, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import EventDetailsModal from './EventDetailsModal';
 
 export default function MyCalendar() {
@@ -30,7 +29,7 @@ export default function MyCalendar() {
     const style = {
       backgroundColor: colorCode,
       borderRadius: "5px",
-      opacity: 0.8,
+      opacity: event.isConfirmed ? 0.8 : 0.2,
       color: "#FFF",
       border: "none",
     };
@@ -53,7 +52,7 @@ export default function MyCalendar() {
             const response = await getClassesByUser(currentUser.data.instructorId ?? currentUser.data.id);
 
             const newEvents = response.data.map((drivingClass) => {
-              const { id, classType, startTime, endTime, studentId, studentName, instructorName } = drivingClass;
+              const { id, classType, startTime, endTime, studentId, studentName, instructorName, isConfirmed } = drivingClass;
               const start = new Date(startTime);
               const end = new Date(endTime);
               const eventName = localStorage.getItem('role') === 'Student' ? instructorName : studentName;
@@ -65,7 +64,8 @@ export default function MyCalendar() {
                 studentId: studentId,
                 classType: CLASS_TYPES.find(c => c.value === classType)?.label,
                 studentName: studentName,
-                instructorName: instructorName
+                instructorName: instructorName,
+                isConfirmed: isConfirmed
               };
             });
 
@@ -80,7 +80,7 @@ export default function MyCalendar() {
     }
     fetchData();
   }, [isEventUpdated]);
-  
+
 
   const openModal = (slot) => {
     if (localStorage.getItem('role') === 'Student') {
@@ -130,6 +130,69 @@ export default function MyCalendar() {
     closeModal();
   };
 
+  const confirm = () => {
+    setAlert({
+      open: false,
+      message: '',
+      severity: '',
+    });
+
+    confirmEvent(selectedEvent.id)
+      .then(response => {
+        setEvents((prevData) => ([...prevData, response.data]));
+        setIsEventUpdated(!isEventUpdated);
+        setAlert({
+          open: true,
+          message: 'Appointment confirmed successfully!',
+          severity: 'success',
+        });
+        onSubmit(eventData);
+      })
+      .catch(error => {
+        const errorData = error.response.data && error.response.data.length < 100 ?
+          error.response.data : 'Appointment confirmation is unsuccessful'
+        setAlert({
+          open: true,
+          message: errorData,
+          severity: 'error',
+        });
+        setIsEventUpdated(!isEventUpdated);
+      });
+
+    closeModal();
+  };
+
+  const refuse = () => {
+    setAlert({
+      open: false,
+      message: '',
+      severity: '',
+    });
+
+    removeEvent(selectedEvent.id)
+      .then(() => {
+        setEvents((prevData) => ([...prevData]));
+        setIsEventUpdated(!isEventUpdated);
+        setAlert({
+          open: true,
+          message: 'Appointment refused successfully! It is removed from calendar.',
+          severity: 'success',
+        });
+        onSubmit(eventData);
+      })
+      .catch(error => {
+        const errorData = error.response.data && error.response.data.length < 100 ?
+          error.response.data : 'Appointment removal is unsuccessful'
+        setAlert({
+          open: true,
+          message: errorData,
+          severity: 'error',
+        });
+      });
+
+    closeModal();
+  };
+
   return (
     <ThemeProvider theme={appColors}>
       <Container component="main" style={{ marginTop: "1rem" }}>
@@ -151,8 +214,14 @@ export default function MyCalendar() {
           <NewEventModal selectedSlot={selectedSlot} open={openModal} onClose={closeModal} onSubmit={handleSubmit} />
         )}
         {selectedEvent && (
-          <EventDetailsModal selectedEvent={selectedEvent} open={openModal} onClose={closeModal} />
-      )}
+          <EventDetailsModal
+            selectedEvent={selectedEvent}
+            open={openModal}
+            onClose={closeModal}
+            confirm={confirm}
+            refuse={refuse}
+          />
+        )}
       </Container>
       {alert.open ? (
         <AlertComponent

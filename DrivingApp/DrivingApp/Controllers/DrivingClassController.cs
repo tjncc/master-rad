@@ -50,5 +50,27 @@ namespace DrivingApp.Controllers
 			List<DrivingClassDto> drivingClasses = await _classService.GetByUserIdAsync(id);
 			return Ok(drivingClasses);
 		}
+
+		[HttpPut("confirm/{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+		public async Task<ActionResult<DrivingClassDto>> ConfirmClass(long id)
+		{
+			DrivingClassDto drivingClass = await _classService.ConfirmEvent(id);
+			return Ok(drivingClass);
+		}
+
+		[HttpDelete("remove/{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+		public async Task<ActionResult<DrivingClassDto>> RemoveClass(long id)
+		{
+			await _classService.RemoveEvent(id);
+			return Ok();
+		}
 	}
 }
