@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Typography, Grid, Card, CardContent } from '@material-ui/core';
-import { getUser, updateUser } from '../../services/userService';
+import { getUser, updateUser, chooseInstrcutor, getInstructorsBySchool } from '../../services/userService';
 import { getSchool } from '../../services/schoolService';
 import { CATEGORIES } from '../../helpers/categoryEnum';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,9 @@ import { format } from 'date-fns';
 import { ROLES } from '../../helpers/roleEnum';
 import AlertComponent from '../../helpers/AlertComponent';
 import { Link } from 'react-router-dom';
+import {
+  Select, MenuItem, FormControl, InputLabel,
+} from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +44,8 @@ export default function ProfilePage() {
   const [userId, setUserId] = useState('');
   const [user, setUser] = useState(null);
   const [schoolName, setSchoolName] = useState('');
+  const [instructorId, setInstructorId] = useState('');
+  const [allInstructors, setAllInstructors] = useState([]);
   const [alert, setAlert] = React.useState({ open: false, message: '', severity: '' });
 
   useEffect(() => {
@@ -52,12 +57,22 @@ export default function ProfilePage() {
       getUser(userId)
         .then(response => {
           setUser(response.data);
-          console.log(response.data);
+          
           if (response.data) {
+            const categoryId = response.data.category;
             getSchool(response.data.schoolId)
               .then(response => {
                 setSchoolName(response.data.name);
-                console.log(response.data.name);
+                
+                if (response.data) {
+                  getInstructorsBySchool(response.data.id, categoryId)
+                  .then(response => {
+                    setAllInstructors(response.data);
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+                }
               })
               .catch(error => {
                 console.log(error);
@@ -80,6 +95,17 @@ export default function ProfilePage() {
     const { name, value } = e.target;
     setUser((prevUserData) => ({ ...prevUserData, [name]: value }));
   };
+
+  const handleSetInstructorId = (instructorId) => {
+    setInstructorId(instructorId);
+    chooseInstrcutor(user.id, instructorId)
+    .then(response => {
+      setUser(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
 
   const handleSubmit = () => {
     setAlert({
@@ -197,6 +223,7 @@ export default function ProfilePage() {
                 SCHOOL INFO
               </Typography>
               {user.schoolId &&
+              <Grid>
                 <Typography variant="h6" gutterBottom>
                   School name:
                   <Link
@@ -212,6 +239,24 @@ export default function ProfilePage() {
                     {schoolName}
                   </Link>
                 </Typography>
+                <FormControl fullWidth>
+                <Typography variant="h6" gutterBottom>
+                  Instructor: 
+                    <Select
+                      required
+                      value={user.instructorId}
+                      onChange={(e) => handleSetInstructorId(e.target.value)}
+                      style={{width: '22%', margin: '0 2%'}}
+                    >
+                      {allInstructors.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.name} {option.lastName}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    </Typography>
+                    </FormControl>
+                </Grid>
               }
               <Typography variant="h6">Category: {CATEGORIES.find((c) => c.value === user.category) ? CATEGORIES.find((c) => c.value === user.category).label : ''}
               </Typography>

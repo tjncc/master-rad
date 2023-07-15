@@ -6,7 +6,6 @@ using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
 using DrivingApp.Interface.Services;
 using DrivingApp.Model;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace DrivingApp.Services
 {
@@ -32,9 +31,9 @@ namespace DrivingApp.Services
 			return await _userRepository.VerifyAsync(userId);
 		}
 
-		public async Task<List<UserResponseDto>> GetInstructorsBySchool(long schoolId)
+		public async Task<List<UserResponseDto>> GetInstructorsBySchool(long schoolId, short categoryId)
 		{
-			var instructors = await _userRepository.GetInstructorsBySchool(schoolId);
+			var instructors = await _userRepository.GetInstructorsBySchool(schoolId, categoryId);
 			return _mapper.Map<List<UserResponseDto>>(instructors);
 		}
 
@@ -58,6 +57,12 @@ namespace DrivingApp.Services
 			}
 
 			return _mapper.Map<UserResponseDto>(user);
+		}
+
+		public async Task<UserResponseDto> ChooseInstructor(long studentId, long instructorId)
+		{
+			var student = await _userRepository.ChooseInstructor(studentId, instructorId);
+			return _mapper.Map<UserResponseDto>(student);
 		}
 	}
 }

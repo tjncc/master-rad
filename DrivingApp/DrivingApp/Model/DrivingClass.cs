@@ -1,4 +1,5 @@
 ﻿using DrivingApp.Common.Enum;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +8,7 @@ namespace DrivingApp.Model
 	public class DrivingClass
 	{
 		[Key]
-		public int Id { get; set; }
+		public long Id { get; set; }
 
 		[Required]
 		public ClassType ClassType { get; set; }
@@ -15,6 +16,11 @@ namespace DrivingApp.Model
 		[Required]
 		public bool IsConfirmed { get; set; }
 
+		[Required]
+		public DateTime StartTime { get; set; }
+
+		[Required]
+		public DateTime EndTime { get; set; }
 
 		public long InstructorId { get; set; }
 
@@ -25,12 +31,6 @@ namespace DrivingApp.Model
 		public long StudentId { get; set; }
 		
 		[ForeignKey("StudentId")]
-		public Student Strudent { get; set; }
-
-
-		public long SchoolId { get; set; }
-
-		[ForeignKey("SchoolId")]
-		public School School { get; set; }
+		public Student Student { get; set; }
 	}
 }

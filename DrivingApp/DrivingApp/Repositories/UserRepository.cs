@@ -47,9 +47,19 @@ namespace DrivingApp.Repositories
 
 		}
 
-		public async Task<List<Instructor>> GetInstructorsBySchool(long schoolId)
+		public async Task<List<Instructor>> GetInstructorsBySchool(long schoolId, short categoryId)
 		{
-            return await _context.Instructors.Where(ins => ins.SchoolId == schoolId).ToListAsync();
+            var instructors = new List<Instructor>();
+            if (categoryId == 999)
+			{
+                instructors = await _context.Instructors.Where(ins => ins.SchoolId == schoolId).ToListAsync();
+
+            } else 
+			{
+                instructors = await _context.Instructors.Where(ins => ins.SchoolId == schoolId && (short)ins.Category == categoryId).ToListAsync();
+            }
+
+            return instructors;
 		}
 
 		public async Task<List<User>> GetAllUsersAsync()
@@ -101,6 +111,18 @@ namespace DrivingApp.Repositories
             }
             _context.SaveChanges();
             return user;
+        }
+
+		public async Task<Student> ChooseInstructor(long studentId, long instructorId)
+		{
+            var student = await GetAsync(studentId);
+            var instructor = await GetAsync(instructorId);
+
+            Student studentUpdate = student as Student;
+            studentUpdate.InstructorId = instructorId;
+
+            _context.SaveChanges();
+            return studentUpdate;
         }
 	}
 }

@@ -120,6 +120,7 @@ namespace DrivingApp.Repositories
                     Role = registrationRequest.Role,
                     PhoneNumber = registrationRequest.PhoneNumber.Value,
                     DateOfBirth = registrationRequest.DateOfBirth.Value,
+                    Jmbg = registrationRequest.Jmbg.Value,
                     Category = registrationRequest.Category.Value
                 };
                 _context.Examiners.Add(examiner);
@@ -137,6 +138,7 @@ namespace DrivingApp.Repositories
                     Role = registrationRequest.Role,
                     PhoneNumber = registrationRequest.PhoneNumber.Value,
                     DateOfBirth = registrationRequest.DateOfBirth.Value,
+                    Jmbg = registrationRequest.Jmbg.Value,
                     Category = registrationRequest.Category.Value,
                     SchoolId = registrationRequest.SchoolId.Value
                 };
@@ -157,6 +159,7 @@ namespace DrivingApp.Repositories
                     Role = registrationRequest.Role,
                     PhoneNumber = registrationRequest.PhoneNumber.Value,
                     DateOfBirth = registrationRequest.DateOfBirth.Value,
+                    Jmbg = registrationRequest.Jmbg.Value,
                     Category = registrationRequest.Category.Value,
                     SchoolId = registrationRequest.SchoolId.Value,
                     NumberOfClasses = 40,

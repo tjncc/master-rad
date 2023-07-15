@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DrivingApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,12 @@ namespace DrivingApp.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false)
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,7 +58,8 @@ namespace DrivingApp.Migrations
                     NumberOfClasses = table.Column<long>(type: "bigint", nullable: true),
                     NumberOfExams = table.Column<long>(type: "bigint", nullable: true),
                     PassedTheory = table.Column<bool>(type: "bit", nullable: true),
-                    SchoolId = table.Column<long>(type: "bigint", nullable: true)
+                    SchoolId = table.Column<long>(type: "bigint", nullable: true),
+                    InstructorId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,28 +81,23 @@ namespace DrivingApp.Migrations
                 name: "DrivingClasses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClassType = table.Column<short>(type: "smallint", nullable: false),
                     IsConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     InstructorId = table.Column<long>(type: "bigint", nullable: false),
-                    StudentId = table.Column<long>(type: "bigint", nullable: false),
-                    SchoolId = table.Column<long>(type: "bigint", nullable: false)
+                    StudentId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DrivingClasses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DrivingClasses_Schools_SchoolId",
-                        column: x => x.SchoolId,
-                        principalTable: "Schools",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_DrivingClasses_Users_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DrivingClasses_Users_StudentId",
                         column: x => x.StudentId,
@@ -112,6 +113,8 @@ namespace DrivingApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PassedPolygon = table.Column<bool>(type: "bit", nullable: false),
                     PassedDriving = table.Column<bool>(type: "bit", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExaminerId = table.Column<long>(type: "bigint", nullable: false),
                     StudentId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -134,11 +137,6 @@ namespace DrivingApp.Migrations
                 name: "IX_DrivingClasses_InstructorId",
                 table: "DrivingClasses",
                 column: "InstructorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DrivingClasses_SchoolId",
-                table: "DrivingClasses",
-                column: "SchoolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DrivingClasses_StudentId",

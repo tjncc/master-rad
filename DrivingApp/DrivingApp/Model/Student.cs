@@ -1,7 +1,6 @@
 ﻿using DrivingApp.Common.Enum;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DrivingApp.Model
 {
@@ -31,5 +30,6 @@ namespace DrivingApp.Model
 
 		public long? SchoolId { get; set; }
 
+		public long? InstructorId { get; set; }
 	}
 }

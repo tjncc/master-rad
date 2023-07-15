@@ -3,7 +3,6 @@ using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
 using DrivingApp.Interface.Services;
 using DrivingApp.Model;
-using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

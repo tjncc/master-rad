@@ -2,10 +2,8 @@
 using System.Threading.Tasks;
 using DrivingApp.Dto;
 using DrivingApp.Interface.Services;
-using DrivingApp.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingApp.Controllers

@@ -11,12 +11,13 @@ import SchoolPage from './components/pages/SchoolPage'
 import AllSchools from './components/pages/AllSchools'
 import AllUsers from './components/pages/AllUsers'
 import ProfilePage from './components/pages/ProfilePage';
+import MyCalendar from './components/calendar/MyCalendar';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<><Header/><Home/></>} />
+        <Route exact path="/" element={<><Header/><AllSchools/></>} />
         <Route exact path="/register/student" element={<RegisterPage />} />
         <Route exact path="/login" element={<LoginPage />} />
         <Route exact path="/school/add" element={<><Header/><SchoolRegistration/></>} />
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/schools"  element={<><Header/><AllSchools/></>} />
         <Route exact path="/users"  element={<><Header/><AllUsers/></>} />
         <Route exact path="/profile"  element={<><Header/><ProfilePage/></>} />
+        <Route exact path="/calendar"  element={<><Header/><MyCalendar/></>} />
 
         <Route exact path="/test"  element={<><Header/><Test/></>} />
       </Routes>
