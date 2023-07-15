@@ -20,5 +20,7 @@ namespace DrivingApp.Interface.Repositories
 		Task<User> Update(long id, UserUpdateDto updateUser);
 
 		Task<Student> ChooseInstructor(long studentId, long instructorId);
+
+		Task<Student> PassTheoryStudent(long id);
 	}
 }

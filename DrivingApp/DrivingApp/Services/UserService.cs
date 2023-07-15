@@ -64,5 +64,11 @@ namespace DrivingApp.Services
 			var student = await _userRepository.ChooseInstructor(studentId, instructorId);
 			return _mapper.Map<UserResponseDto>(student);
 		}
+
+		public async Task<UserResponseDto> PassTheoryStudent(long id)
+		{
+			var student = await _userRepository.PassTheoryStudent(id);
+			return _mapper.Map<UserResponseDto>(student);
+		}
 	}
 }

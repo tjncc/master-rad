@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import {
   Typography,
   Grid,
@@ -12,11 +13,9 @@ import {
   Select,
   MenuItem,
   Paper,
-} from '@mui/material';
-import {
   Button
-} from "@material-ui/core";
-import { getAllUsers } from '../../services/userService';
+} from '@mui/material';
+import { getAllUsers, studentPassTheory } from '../../services/userService';
 import { getSchool } from '../../services/schoolService';
 import { ROLES } from '../../helpers/roleEnum';
 import { CATEGORIES } from '../../helpers/categoryEnum';
@@ -34,7 +33,7 @@ export default function UserListPage() {
   const [roleFilter, setRoleFilter] = useState();
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [openRegistrationDialog, setOpenRegistrationDialog] = React.useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [openConformationDialog, setOpenConformationDialog] = React.useState(false);
   const [isChangedUsers, setIsChangedUsers] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [alert, setAlert] = React.useState({ open: false, message: '', severity: '' });
@@ -136,11 +135,11 @@ export default function UserListPage() {
       message: '',
       severity: '',
     });
-      setAlert({
-        open: true,
-        message: 'Registration successful',
-        severity: 'success',
-      });
+    setAlert({
+      open: true,
+      message: 'Registration successful',
+      severity: 'success',
+    });
     setIsChangedUsers(!isChangedUsers);
     setIsSuccess(false);
     setOpenRegistrationDialog(false);
@@ -150,17 +149,29 @@ export default function UserListPage() {
     setOpenRegistrationDialog(false);
   }
 
-  const handleOpenDeleteDialog = () => {
-    setOpenDeleteDialog(true);
+  const handleOpenConformationDialog = () => {
+    setOpenConformationDialog(true);
   }
 
   const handleConfirmDeleteDialog = () => {
     handleDeleteUser();
-    setOpenDeleteDialog(false);
+    setOpenConformationDialog(false);
   }
 
   const handleCloseDialog = () => {
-    setOpenDeleteDialog(false);
+    setOpenConformationDialog(false);
+  }
+
+  const handlePassTheory = () => {
+    studentPassTheory(selectedUser.id)
+      .then(response => {
+        console.log(response)
+        setSelectedUser(response.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      setOpenConformationDialog(false);
   }
 
   return (
@@ -231,9 +242,9 @@ export default function UserListPage() {
                   <Typography variant="h5" gutterBottom>
                     {selectedUser.name} {selectedUser.lastName}
                   </Typography>
-                  <Button style={{ marginLeft: '2rem', border: '1px solid #E28F83', color: '#E28F83' }} onClick={handleOpenDeleteDialog}>Delete user</Button>
+                  <Button style={{ marginLeft: '2rem', border: '1px solid #E28F83', color: '#E28F83' }} onClick={handleOpenConformationDialog}>Delete user</Button>
                   <ConformationModal
-                    open={openDeleteDialog}
+                    open={openConformationDialog}
                     handleClose={handleCloseDialog}
                     handleConfirm={handleConfirmDeleteDialog}
                     onChangeUsers={setIsChangedUsers}
@@ -273,6 +284,44 @@ export default function UserListPage() {
                 <Typography variant="subtitle1" gutterBottom>
                   Phone number: {selectedUser.phoneNumber}
                 </Typography>
+                <Typography variant="subtitle1" gutterBottom>
+                  Date of birth: {selectedUser.dateOfBirth && moment(selectedUser.dateOfBirth).format("DD-MM-YYYY")}
+                </Typography>
+                {selectedUser.role === 2 &&
+                  <Grid style={{marginTop: '2rem'}}>
+                    {
+                      selectedUser.passedTheory ?
+                        (<Grid>
+                          <Typography variant="h6" style={{ color: '#8E9775', marginBottom: '0.5rem' }}>Passed theory</Typography>
+                          <Typography variant="subtitle1" gutterBottom>
+                            Number of classes: {selectedUser.numberOfClasses}
+                          </Typography>
+                          <Typography variant="subtitle1" gutterBottom>
+                            Number of exams: {selectedUser.numberOfExams}
+                          </Typography>
+                        </Grid>) :
+                        (<Grid>
+                          <Button
+                            onClick={handleOpenConformationDialog}
+                            style={{ margin: '1rem 0rem', border: '1px solid #8E9775', color: '#8E9775', padding: '0.5rem 1rem' }}
+                          >
+                            CLICK IF {selectedUser.name} PASSED THEORY
+                          </Button>
+                          <ConformationModal
+                    open={openConformationDialog}
+                    handleClose={handleCloseDialog}
+                    handleConfirm={handlePassTheory}
+                    onChangeUsers={setIsChangedUsers}
+                    isChangedUser={isChangedUsers}
+                    userId={selectedUser.id}
+                    onSuccessful={setIsSuccess}
+                    title={"Confirm theory result"}
+                    text={"Are you sure that this user has passed the theory?"}
+                    buttonText={"Yes"} />
+                        </Grid>)
+                    }
+                  </Grid>
+                }
                 {alert.open ? (
                   <AlertComponent
                     open={alert.open}
