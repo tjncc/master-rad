@@ -11,5 +11,9 @@ namespace DrivingApp.Interface.Services
 		Task<List<DrivingClassDto>> GetByUserIdAsync(long userId);
 
 		Task<DrivingClassDto> AddAsync(DrivingClassDto drivingClassDto);
+
+		Task<DrivingClassDto> ConfirmEvent(long id);
+
+		Task RemoveEvent(long id);
 	}
 }
