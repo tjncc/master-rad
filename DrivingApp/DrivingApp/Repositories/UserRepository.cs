@@ -124,5 +124,21 @@ namespace DrivingApp.Repositories
             _context.SaveChanges();
             return studentUpdate;
         }
+
+		public async Task<Student> PassTheoryStudent(long id)
+		{
+            var user = await GetAsync(id);
+            Student student = user as Student;
+            if (!student.PassedTheory)
+			{
+                student.PassedTheory = true;
+                _context.SaveChanges();
+                return student;
+            }
+			else
+			{
+                throw new MyException("This student have already passed theory");
+            }
+        }
 	}
 }

@@ -19,5 +19,7 @@ namespace DrivingApp.Interface.Services
 		Task<UserResponseDto> Update(long userId, UserUpdateDto updateUser);
 
 		Task<UserResponseDto> ChooseInstructor(long studentId, long instructorId);
+
+		Task<UserResponseDto> PassTheoryStudent(long id);
 	}
 }
