@@ -11,12 +11,14 @@ namespace DrivingApp.Interface.Repositories
 
 		Task<bool> VerifyAsync(long id);
 
-		Task<List<Instructor>> GetInstructorsBySchool(long schoolId);
+		Task<List<Instructor>> GetInstructorsBySchool(long schoolId, short categoryId);
 
 		Task<List<User>> GetAllUsersAsync();
 
 		void Delete(long id);
 
 		Task<User> Update(long id, UserUpdateDto updateUser);
+
+		Task<Student> ChooseInstructor(long studentId, long instructorId);
 	}
 }

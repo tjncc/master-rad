@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { getSchool, updateSchool } from '../../services/schoolService';
 import { getInstructorsBySchool } from '../../services/userService';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { appColors } from '../../css/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button'
@@ -33,7 +32,7 @@ export default function SchoolPage() {
     async function fetchData() {
       try {
         const schoolResponse = await getSchool(id);
-        const instructorsResponse = await getInstructorsBySchool(id);
+        const instructorsResponse = await getInstructorsBySchool(id, 999);
         setSchool(schoolResponse.data);
         setSchoolUpdated(schoolResponse.data);
         setInstructors(instructorsResponse.data);
@@ -43,7 +42,6 @@ export default function SchoolPage() {
     }
     fetchData();
 
-    console.log(instructors)
   }, [id]);
 
   const handleOpenRegistrationDialog = () => {
@@ -70,7 +68,7 @@ export default function SchoolPage() {
 
   async function updateInstructors() {
     try {
-      const instructorsResponse = await getInstructorsBySchool(id);
+      const instructorsResponse = await getInstructorsBySchool(id, 999);
       setInstructors(instructorsResponse.data);
     } catch (error) {
       console.log(error);
@@ -128,53 +126,79 @@ export default function SchoolPage() {
                 <Typography variant="h6" gutterBottom>
                   Name
                 </Typography>
-                <TextField
+                {localStorage.getItem('role') === 'Admin' ? 
+                (<TextField
                   variant="outlined"
                   name="name"
                   value={school.name}
                   onChange={handleChange}
                   style={{ width: '400px', padding: '0' }}
-                />
+                />) :
+                (<Typography variant="h6" style={{color: '#8E9775'}} gutterBottom>
+                  {school.name}
+                </Typography>
+                )}
                 <Typography variant="h6" gutterBottom>
                   Address
                 </Typography>
-                <TextField
-                  variant="outlined"
-                  name="address"
-                  value={school.address}
-                  onChange={handleChange}
-                  style={{ width: '400px', padding: '0' }}
-                />
+                {localStorage.getItem('role') === 'Admin' ?
+                  (<TextField
+                    variant="outlined"
+                    name="address"
+                    value={school.address}
+                    onChange={handleChange}
+                    style={{ width: '400px', padding: '0' }}
+                  />) :
+                  (<Typography variant="h6" style={{color: '#8E9775'}} gutterBottom>
+                    {school.address}
+                  </Typography>)
+                }
                 <Typography variant="h6" gutterBottom>
                   Phone Number
                 </Typography>
-                <TextField
+                {localStorage.getItem('role') === 'Admin' ? 
+                (<TextField
                   variant="outlined"
                   name="phoneNumber"
                   value={school.phoneNumber}
                   onChange={handleChange}
                   style={{ width: '400px', padding: '0' }}
-                />
+                />) :
+                (<Typography variant="h6" style={{color: '#8E9775'}} gutterBottom>
+                    {school.phoneNumber}
+                  </Typography>)
+                }
                 <Typography variant="h6" gutterBottom>
                   Email
                 </Typography>
-                <TextField
+                {localStorage.getItem('role') === 'Admin' ? 
+                (<TextField
                   variant="outlined"
                   name="email"
                   value={school.email}
                   onChange={handleChange}
                   style={{ width: '400px', padding: '0' }}
-                />
+                />) : 
+                (<Typography variant="h6" style={{color: '#8E9775'}} gutterBottom>
+                    {school.email}
+                  </Typography>)
+                }
                 <Typography variant="h6" gutterBottom>
                   Description
                 </Typography>
-                <TextField
+                {localStorage.getItem('role') === 'Admin' ? 
+                (<TextField
                   variant="outlined"
                   name="description"
                   value={school.description}
                   onChange={handleChange}
                   style={{ width: '400px', padding: '0' }}
-                />
+                />) : 
+                (<Typography variant="h6" style={{color: '#8E9775'}} gutterBottom>
+                    {school.description}
+                  </Typography>)
+                }
+                { localStorage.getItem('role') === 'Admin' &&
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Button
                     style={{ margin: '2rem 2rem 0 0', border: '1px solid #8E9775', backgroundColor: '#8E9775', color: 'white', padding: '1% 5%' }}
@@ -187,6 +211,7 @@ export default function SchoolPage() {
                     Cancel
                   </Button>
                 </div>
+                }
               </Paper>
             ) : (
               <div></div>
@@ -196,22 +221,26 @@ export default function SchoolPage() {
           <Grid item xs={12} sm={3}>
             {school &&
               <div style={{ maxHeight: "85vh", overflow: "auto" }}>
-                <Button
-                  variant="contained"
-                  color="peach"
-                  sx={{
-                    mt: 3,
-                    mb: 2
-                  }}
-                  onClick={handleOpenRegistrationDialog}>
-                  Add instructor
-                </Button>
-                <InstructorModal open={openRegistrationDialog}
-                  handleClose={handleCloseRegistrationDialog}
-                  handleRegister={handleRegisterDialog}
-                  schoolName={school.name}
-                  schoolId={school.id}
-                  onUpdateInstructors={updateInstructors} />
+                {localStorage.getItem('role') === 'Admin' &&
+                  <div>
+                    <Button
+                      variant="contained"
+                      color="peach"
+                      sx={{
+                        mt: 3,
+                        mb: 2
+                      }}
+                      onClick={handleOpenRegistrationDialog}>
+                      Add instructor
+                    </Button>
+                    <InstructorModal open={openRegistrationDialog}
+                      handleClose={handleCloseRegistrationDialog}
+                      handleRegister={handleRegisterDialog}
+                      schoolName={school.name}
+                      schoolId={school.id}
+                      onUpdateInstructors={updateInstructors} />
+                  </div>
+                }
                 <Typography variant="h6" gutterBottom style={{ backgroundColor: "white" }}>
                   List of instructors in this school
                 </Typography>

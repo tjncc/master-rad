@@ -24,14 +24,17 @@ namespace DrivingApp.Migrations
 
             modelBuilder.Entity("DrivingApp.Model.DrivingClass", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<short>("ClassType")
                         .HasColumnType("smallint");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("InstructorId")
                         .HasColumnType("bigint");
@@ -39,8 +42,8 @@ namespace DrivingApp.Migrations
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<long>("SchoolId")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("StudentId")
                         .HasColumnType("bigint");
@@ -48,8 +51,6 @@ namespace DrivingApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InstructorId");
-
-                    b.HasIndex("SchoolId");
 
                     b.HasIndex("StudentId");
 
@@ -64,6 +65,9 @@ namespace DrivingApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("ExaminerId")
                         .HasColumnType("bigint");
 
@@ -72,6 +76,9 @@ namespace DrivingApp.Migrations
 
                     b.Property<bool>("PassedPolygon")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("StudentId")
                         .HasColumnType("bigint");
@@ -239,6 +246,9 @@ namespace DrivingApp.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("InstructorId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("Jmbg")
                         .HasMaxLength(13)
                         .HasColumnType("bigint");
@@ -269,12 +279,6 @@ namespace DrivingApp.Migrations
                     b.HasOne("DrivingApp.Model.Instructor", "Instructor")
                         .WithMany()
                         .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DrivingApp.Model.School", "School")
-                        .WithMany()
-                        .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
@@ -285,8 +289,6 @@ namespace DrivingApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Instructor");
-
-                    b.Navigation("School");
 
                     b.Navigation("Strudent");
                 });

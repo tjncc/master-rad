@@ -42,14 +42,14 @@ namespace DrivingApp.Controllers
 			return Ok(isVerified);
 		}
 
-		[HttpGet("instructors/school/{schoolId}")]
+		[HttpGet("instructors/school/{schoolId}/{categoryId}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-		public async Task<ActionResult<List<UserResponseDto>>> GetInstructorsBySchool(long schoolId)
+		public async Task<ActionResult<List<UserResponseDto>>> GetInstructorsBySchool(long schoolId, short categoryId)
 		{
-			var instructors = await _userService.GetInstructorsBySchool(schoolId);
+			var instructors = await _userService.GetInstructorsBySchool(schoolId, categoryId);
 			return Ok(instructors);
 		}
 
@@ -83,6 +83,17 @@ namespace DrivingApp.Controllers
 		public async Task<ActionResult<UserResponseDto>> UpdateUser(long id, [FromBody] UserUpdateDto updateUser)
 		{
 			var user = await _userService.Update(id, updateUser);
+			return Ok(user);
+		}
+
+		[HttpPut("{studentId}/{instructorId}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+		public async Task<ActionResult<UserResponseDto>> ChooseInstructor(long studentId, long instructorId)
+		{
+			var user = await _userService.ChooseInstructor(studentId, instructorId);
 			return Ok(user);
 		}
 	}

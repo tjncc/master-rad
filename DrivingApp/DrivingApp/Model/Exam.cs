@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DrivingApp.Model
@@ -14,6 +15,11 @@ namespace DrivingApp.Model
 		[Required]
 		public bool PassedDriving { get; set; }
 
+		[Required]
+		public DateTime StartTime { get; set; }
+
+		[Required]
+		public DateTime EndTime { get; set; }
 
 		public long ExaminerId { get; set; }
 

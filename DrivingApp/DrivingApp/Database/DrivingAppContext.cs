@@ -27,12 +27,12 @@ using System.Reflection.Metadata;
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<DrivingClass>()
-				.HasOne(s => s.School)
+				.HasOne(s => s.Student)
 				.WithMany()
 				.OnDelete(DeleteBehavior.ClientCascade);
 
 			modelBuilder.Entity<DrivingClass>()
-				.HasOne(s => s.Strudent)
+				.HasOne(s => s.Instructor)
 				.WithMany()
 				.OnDelete(DeleteBehavior.ClientCascade);
 
