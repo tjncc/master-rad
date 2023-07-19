@@ -7,11 +7,12 @@ import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import NewEventModal from './NewEventModal';
-import { addClass, getClassesByUser, confirmEvent, removeEvent } from '../../services/classService';
+import { addAppointment, getAppointmentsByUser, confirmEvent, removeEvent, updateExamResult } from '../../services/appointmentService';
 import AlertComponent from '../../helpers/AlertComponent';
 import { CLASS_TYPES } from '../../helpers/classTypeEnum';
 import { getUser } from '../../services/userService';
 import EventDetailsModal from './EventDetailsModal';
+import { EXAM_STATUS } from '../../helpers/examStatusEnum';
 
 export default function MyCalendar() {
   const localizer = momentLocalizer(moment)
@@ -24,7 +25,8 @@ export default function MyCalendar() {
   const [selectedEvent, setSelectedEvent] = React.useState(null);
 
   const eventStyleGetter = (event) => {
-    const colorCode = event.studentId.toString() === localStorage.getItem('id') ? "#4A503D" : "#E28F83";
+    const colorCode = event.studentId.toString() === localStorage.getItem('id') ?
+      (event.isExam ? "#E28F83" : "#4A503D") : "#8E9775";
 
     const style = {
       backgroundColor: colorCode,
@@ -48,24 +50,27 @@ export default function MyCalendar() {
           const currentUser = await getUser(localStorage.getItem('id'));
           if (currentUser.data) {
             setUser(currentUser.data);
+            
+            const response = await getAppointmentsByUser(currentUser.data.id, currentUser.data.role);
 
-            const response = await getClassesByUser(currentUser.data.instructorId ?? currentUser.data.id);
-
-            const newEvents = response.data.map((drivingClass) => {
-              const { id, classType, startTime, endTime, studentId, studentName, instructorName, isConfirmed } = drivingClass;
+            const newEvents = response.data.map((appointment) => {
+              const { id, isExam, classType, startTime, endTime, studentId, studentName, instructorName, examinerName, isConfirmed, examStatus } = appointment;
               const start = new Date(startTime);
               const end = new Date(endTime);
               const eventName = localStorage.getItem('role') === 'Student' ? instructorName : studentName;
               return {
                 id: id,
-                title: eventName,
+                title: eventName ?? "Exam",
                 start: new Date(start),
                 end: new Date(end),
                 studentId: studentId,
                 classType: CLASS_TYPES.find(c => c.value === classType)?.label,
                 studentName: studentName,
                 instructorName: instructorName,
-                isConfirmed: isConfirmed
+                examinerName: examinerName,
+                isConfirmed: isConfirmed,
+                isExam: isExam,
+                examStatus: EXAM_STATUS.find(c => c.value === examStatus)?.label
               };
             });
 
@@ -83,6 +88,11 @@ export default function MyCalendar() {
 
 
   const openModal = (slot) => {
+    const currentTime = new Date();
+
+    if (slot.start < currentTime) {
+      return;
+    }
     if (localStorage.getItem('role') === 'Student') {
       setSelectedSlot(slot);
       setIsModalOpen(true);
@@ -106,20 +116,28 @@ export default function MyCalendar() {
       severity: '',
     });
 
-    addClass(eventData)
+    addAppointment(eventData)
       .then(response => {
         setEvents((prevData) => ([...prevData, response.data]));
         setIsEventUpdated(!isEventUpdated);
-        setAlert({
-          open: true,
-          message: 'Made a class appointment successfully!',
-          severity: 'success',
-        });
+        if (response.data.isExam) {
+          setAlert({
+            open: true,
+            message: 'Made an exam appointment successfully!',
+            severity: 'success',
+          });
+        } else {
+          setAlert({
+            open: true,
+            message: 'Made a class appointment successfully!',
+            severity: 'success',
+          });
+        }
         onSubmit(eventData);
       })
       .catch(error => {
         const errorData = error.response.data && error.response.data.length < 100 ?
-          error.response.data : 'Making a class appointment is unsuccessful'
+          error.response.data : 'Making an appointment is unsuccessful'
         setAlert({
           open: true,
           message: errorData,
@@ -193,6 +211,37 @@ export default function MyCalendar() {
     closeModal();
   };
 
+  const updateResult = (hasPassed) => {
+    setAlert({
+      open: false,
+      message: '',
+      severity: '',
+    });
+
+    updateExamResult(selectedEvent.id, hasPassed)
+      .then(() => {
+        setEvents((prevData) => ([...prevData]));
+        setIsEventUpdated(!isEventUpdated);
+        setAlert({
+          open: true,
+          message: 'You have successfully updated exam result.',
+          severity: 'success',
+        });
+        onSubmit(eventData);
+      })
+      .catch(error => {
+        const errorData = error.response.data && error.response.data.length < 100 ?
+          error.response.data : 'Exam update is unsuccessful'
+        setAlert({
+          open: true,
+          message: errorData,
+          severity: 'error',
+        });
+      });
+
+    closeModal();
+  };
+
   return (
     <ThemeProvider theme={appColors}>
       <Container component="main" style={{ marginTop: "1rem" }}>
@@ -220,6 +269,7 @@ export default function MyCalendar() {
             onClose={closeModal}
             confirm={confirm}
             refuse={refuse}
+            updateResult={updateResult}
           />
         )}
       </Container>

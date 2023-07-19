@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using DrivingApp.Common.Exceptions;
@@ -69,6 +70,22 @@ namespace DrivingApp.Services
 		{
 			var student = await _userRepository.PassTheoryStudent(id);
 			return _mapper.Map<UserResponseDto>(student);
+		}
+
+		public async Task<List<UserResponseDto>> GetAvailableExaminers(DateTime startTime, DateTime endTime)
+		{
+			var examiners = await _userRepository.GetAvailableExaminers(startTime, endTime);
+			return _mapper.Map<List<UserResponseDto>>(examiners);
+		}
+
+		public async Task UpdateNumberOfClasses(long id, bool increment)
+		{
+			await _userRepository.UpdateNumberOfClasses(id, increment);
+		}
+
+		public async Task UpdateNumberOfExams(long id, bool increment)
+		{
+			await _userRepository.UpdateNumberOfExams(id, increment);
 		}
 	}
 }

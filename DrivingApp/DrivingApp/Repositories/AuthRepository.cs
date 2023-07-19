@@ -163,8 +163,9 @@ namespace DrivingApp.Repositories
                     Category = registrationRequest.Category.Value,
                     SchoolId = registrationRequest.SchoolId.Value,
                     NumberOfClasses = 40,
-                    NumberOfExams = 1,
-                    PassedTheory = false
+                    NumberOfExams = 0,
+                    PassedTheory = false,
+                    PassedDriving = false
                 };
                 _context.Students.Add(student);
                 school.Students.Add(student);
