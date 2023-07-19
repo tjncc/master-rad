@@ -3,11 +3,15 @@ using System;
 
 namespace DrivingApp.Dto
 {
-	public class DrivingClassDto
+	public class AppointmentDto
 	{
 		public long? Id { get; set; }
 
-		public ClassType ClassType { get; set; }
+		public bool IsExam { get; set; }
+
+		public ClassType? ClassType { get; set; }
+
+		public ExamStatus? ExamStatus { get; set; }
 
 		public bool IsConfirmed { get; set; }
 
@@ -15,12 +19,16 @@ namespace DrivingApp.Dto
 
 		public DateTime EndTime { get; set; }
 
-		public long InstructorId { get; set; }
+		public long? InstructorId { get; set; }
+
+		public long? ExaminerId { get; set; }
 
 		public long StudentId { get; set; }
 
 		public string? StudentName { get; set; }
 
 		public string? InstructorName { get; set; }
+
+		public string? ExaminerName { get; set; }
 	}
 }

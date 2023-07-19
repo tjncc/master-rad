@@ -92,8 +92,7 @@ namespace DrivingApp
 				mc.AddProfile(new StudentProfile());
 				mc.AddProfile(new SchoolProfile());
 				mc.AddProfile(new UserProfile());
-				mc.AddProfile(new DrivingClassProfile());
-				mc.AddProfile(new ExamProfile());
+				mc.AddProfile(new AppointmentProfile());
 			});
 
 			IMapper mapper = mapperConfig.CreateMapper();
@@ -106,16 +105,14 @@ namespace DrivingApp
 			services.AddTransient<IAuthRepository, AuthRepository>();
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<ISchoolRepository, SchoolRepository>();
-			services.AddTransient<IDrivingClassRepository, DrivingClassRepository>();
-			services.AddTransient<IExamRepository, ExamRepository>();
+			services.AddTransient<IAppointmentRepository, AppointmentRepository>();
 
 			//services
 			services.AddTransient<IAuthService, AuthService>();
 			services.AddTransient<ITokenService, TokenService>();
 			services.AddTransient<ISchoolService, SchoolService>();
 			services.AddTransient<IUserService, UserService>();
-			services.AddTransient<IDrivingClassService, DrivingClassService>();
-			services.AddTransient<IExamService, ExamService>();
+			services.AddTransient<IAppointmentService, AppointmentService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -25,3 +25,5 @@ export const updateUser = (id, data) => axios.put(`${config.baseUrl}/api/User/${
 export const chooseInstrcutor = (studentId, instructorId) => axios.put(`${config.baseUrl}/api/User/${studentId}/${instructorId}`, {headers: authHeader()} )
 
 export const studentPassTheory = (id) => axios.put(`${config.baseUrl}/api/User/pass-theory/${id}`,  {headers: authHeader()} )
+
+export const getAvailableExaminers = (startTime, endTime) => axios.get(`${config.baseUrl}/api/User/examiners`, startTime, endTime, {headers: authHeader()} )

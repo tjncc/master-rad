@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using DrivingApp.Model;
 using Microsoft.AspNetCore.JsonPatch;
+using System;
 
 namespace DrivingApp.Controllers
 {
@@ -106,6 +107,17 @@ namespace DrivingApp.Controllers
 		{
 			var user = await _userService.PassTheoryStudent(id);
 			return Ok(user);
+		}
+
+		[HttpGet("examiners")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+		public async Task<ActionResult<List<UserResponseDto>>> GetAvailableExaminers(DateTime startTime, DateTime endTime)
+		{
+			var instructors = await _userService.GetAvailableExaminers(startTime, endTime);
+			return Ok(instructors);
 		}
 	}
 }

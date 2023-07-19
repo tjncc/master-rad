@@ -27,6 +27,8 @@ namespace DrivingApp.Model
 		[Required]
 		public bool PassedTheory { get; set; }
 
+		[Required]
+		public bool PassedDriving { get; set; }
 
 		public long? SchoolId { get; set; }
 

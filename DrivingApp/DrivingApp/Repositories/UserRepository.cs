@@ -140,5 +140,47 @@ namespace DrivingApp.Repositories
                 throw new MyException("This student have already passed theory");
             }
         }
+
+		public async Task UpdateNumberOfClasses(long id, bool increment)
+		{
+            var user = await GetAsync(id);
+            Student student = user as Student;
+
+            if (!increment && student.NumberOfClasses > 0)
+			{
+                student.NumberOfClasses -= 1;
+            }
+            else if (increment && student.NumberOfClasses < 40)
+			{
+                student.NumberOfClasses += 1;
+            }
+        }
+
+        public async Task UpdateNumberOfExams(long id, bool increment)
+        {
+            var user = await GetAsync(id);
+            Student student = user as Student;
+
+            if (!increment && student.NumberOfExams > 0)
+            {
+                student.NumberOfExams -= 1;
+            }
+            else if (increment)
+            {
+                student.NumberOfExams += 1;
+            }
+        }
+
+        public async Task<List<Examiner>> GetAvailableExaminers(DateTime startTime, DateTime endTime)
+		{
+            var examinerIds = _context.Appointments.Where(exam => exam.ExaminerId.HasValue && exam.StartTime >= startTime && exam.EndTime <= endTime)
+                                                   .Select(exam => exam.ExaminerId)
+                                                   .Distinct()
+                                                   .ToList();
+
+            var availableExaminers = await _context.Examiners.Where(ex => !examinerIds.Contains(ex.Id)).ToListAsync();
+
+            return availableExaminers;
+        }
 	}
 }

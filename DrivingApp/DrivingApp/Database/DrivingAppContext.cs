@@ -13,8 +13,7 @@ using System.Reflection.Metadata;
 		public DbSet<Instructor> Instructors { get; set; }
 		public DbSet<Examiner> Examiners { get; set; }
 		public DbSet<School> Schools { get; set; }
-		public DbSet<DrivingClass> DrivingClasses { get; set; }
-		public DbSet<Exam> Exams { get; set; }
+		public DbSet<Appointment> Appointments { get; set; }
 
 		protected readonly IConfiguration Configuration;
 
@@ -26,23 +25,18 @@ using System.Reflection.Metadata;
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<DrivingClass>()
+			modelBuilder.Entity<Appointment>()
 				.HasOne(s => s.Student)
 				.WithMany()
 				.OnDelete(DeleteBehavior.ClientCascade);
 
-			modelBuilder.Entity<DrivingClass>()
+			modelBuilder.Entity<Appointment>()
 				.HasOne(s => s.Instructor)
 				.WithMany()
 				.OnDelete(DeleteBehavior.ClientCascade);
 
-			modelBuilder.Entity<Exam>()
-				.HasOne(s => s.Student)
-				.WithMany()
-				.OnDelete(DeleteBehavior.ClientCascade);
-
-			modelBuilder.Entity<Exam>()
-				.HasOne(e => e.Examiner)
+			modelBuilder.Entity<Appointment>()
+				.HasOne(s => s.Examiner)
 				.WithMany()
 				.OnDelete(DeleteBehavior.ClientCascade);
 

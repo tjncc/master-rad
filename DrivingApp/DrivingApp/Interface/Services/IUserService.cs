@@ -1,4 +1,6 @@
 ﻿using DrivingApp.Dto;
+using DrivingApp.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,5 +23,11 @@ namespace DrivingApp.Interface.Services
 		Task<UserResponseDto> ChooseInstructor(long studentId, long instructorId);
 
 		Task<UserResponseDto> PassTheoryStudent(long id);
+
+		Task<List<UserResponseDto>> GetAvailableExaminers(DateTime startTime, DateTime endTime);
+
+		Task UpdateNumberOfClasses(long id, bool increment);
+
+		Task UpdateNumberOfExams(long id, bool increment);
 	}
 }
