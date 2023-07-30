@@ -28,9 +28,6 @@ const useStyles = makeStyles((theme) => ({
   nameProfilePage: {
     marginTop: theme.spacing(2),
   },
-  cardProfilePage: {
-    backgroundColor: '#FAF2DA'
-  },
   roleProfilePage: {
     justifyContent: 'center',
     alignContent: 'center'
@@ -57,7 +54,7 @@ export default function ProfilePage() {
       getUser(userId)
         .then(response => {
           setUser(response.data);
-
+          console.log(response.data)
           if (response.data) {
             const categoryId = response.data.category;
             getSchool(response.data.schoolId)
@@ -150,11 +147,11 @@ export default function ProfilePage() {
     <div className={classes.rootProfilePage}>
       <Grid container direction='row' spacing={2}>
         <Grid item xs={4}>
-          <Card className={classes.cardProfilePage}>
+          <Card style={{ backgroundColor: '#FAF2DA' }}>
             <CardContent>
               <Grid container direction='column' alignItems='center' spacing={2}>
                 <Grid item>
-                  <Avatar className={classes.avatarProfilePage} />
+                  <Avatar style={{ backgroundColor: '#8E9775' }} />
                 </Grid>
                 {user ? (
                   <Grid item>
@@ -273,6 +270,7 @@ export default function ProfilePage() {
                 {user.passedTheory && <Typography variant='h6' style={{ color: '#8E9775' }}>Passed theory</Typography>}
                 <Typography variant='h6'>Number of remaining classes: {user.numberOfClasses}</Typography>
                 <Typography variant='h6'>Number of exam attempts: {user.numberOfExams} </Typography>
+                {user.passedDriving && <Typography variant='h5' style={{ color: '#8E9775' }}>PASSED DRIVING</Typography>}
               </Grid>
             }
           </Grid>
