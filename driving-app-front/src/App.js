@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route  } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import RegisterPage from './components/registration/RegistrationStudent'
 import Home from './components/HomePage'
 import Header from './components/Header'
@@ -13,22 +13,30 @@ import AllUsers from './components/pages/AllUsers'
 import ProfilePage from './components/pages/ProfilePage';
 import MyCalendar from './components/calendar/MyCalendar';
 
+const Layout = () => {
+  return (<>
+    <Header />
+    <Outlet />
+  </>)
+}
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<><Header/><AllSchools/></>} />
-        <Route exact path="/register/student" element={<RegisterPage />} />
         <Route exact path="/login" element={<LoginPage />} />
-        <Route exact path="/school/add" element={<><Header/><SchoolRegistration/></>} />
-        <Route exact path="/user/verified/:id"  element={<UserVerification />} />
-        <Route exact path="/school/:id"  element={<><Header/><SchoolPage/></>} />
-        <Route exact path="/schools"  element={<><Header/><AllSchools/></>} />
-        <Route exact path="/users"  element={<><Header/><AllUsers/></>} />
-        <Route exact path="/profile"  element={<><Header/><ProfilePage/></>} />
-        <Route exact path="/calendar"  element={<><Header/><MyCalendar/></>} />
+        <Route exact path="/register/student" element={<RegisterPage />} />
+        <Route exact path="/user/verified/:id" element={<UserVerification />} />
 
-        <Route exact path="/test"  element={<><Header/><Test/></>} />
+        <Route element={<Layout />}>
+          <Route index element={<AllSchools />} />
+          <Route exact path="/school/add" element={<SchoolRegistration />} />
+          <Route exact path="/school/:id" element={<SchoolPage />} />
+          <Route exact path="/schools" element={<AllSchools />} />
+          <Route exact path="/users" element={<AllUsers />} />
+          <Route exact path="/profile" element={<ProfilePage />} />
+          <Route exact path="/calendar" element={<MyCalendar />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

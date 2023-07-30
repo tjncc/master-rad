@@ -10,12 +10,10 @@ import {
 } from '@mui/material'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import Typography from '@mui/material/Typography'
-import { ThemeProvider } from '@mui/material/styles'
 import moment from 'moment/moment'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { appColors } from '../../css/theme'
 import { register } from '../../services/userService'
 import { CATEGORIES } from '../../helpers/categoryEnum'
 import AlertComponent from '../../helpers/AlertComponent'
@@ -87,161 +85,158 @@ export default function InstructorModal(props) {
   };
 
   return (
-    <ThemeProvider theme={appColors}>
-      <Dialog open={props.open} onClose={props.handleClose}
-        PaperProps={{
-          style: {
-            backgroundColor: '#fdfaf0'
-          },
-        }}>
-        <DialogContent>
-          <Container component="main" maxWidth="md">
-            <CssBaseline />
-            <Box
-              sx={{
-                my: 5,
-                mx: 4,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <Avatar sx={{ m: 0.5, bgcolor: '#E28F83' }}>
-                <PersonOutlineOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h6">
-                Register Instructor
-              </Typography>
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="given-name"
-                      name="name"
-                      value={name}
-                      required
-                      fullWidth
-                      id="name"
-                      label="First Name"
-                      autoFocus
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="lastName"
-                      value={lastName}
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="email"
-                      value={email}
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="Driving School"
-                      value={schoolName}
-                      disabled
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="jmbg"
-                      value={jmbg}
-                      label="JMBG"
-                      name="jmbg"
-                      type="number"
-                      onChange={(e) => setJmbg(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="phoneNumber"
-                      value={phoneNumber}
-                      label="Phone Number"
-                      name="phoneNumber"
-                      type="number"
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth>
-                      <InputLabel>Category</InputLabel>
-                      <Select
-                        required
-                        value={category}
-                        label="Category"
-                        style={{backgroundColor: "#fdfaf0"}}
-                        onChange={(e) => setCategory(e.target.value)}
-                      >
-                        {CATEGORIES.map((option) => (
-                          <MenuItem key={option.value} value={option.value} style={{backgroundColor: "#fdfaf0"}}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label="Date of Birth"
-                        value={dateOfBirth}
-                        onChange={(newValue) => {
-                          setDateOfBirth(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </Grid>
-                  <Grid item xs={12} />
+    <Dialog open={props.open} onClose={props.handleClose}
+      PaperProps={{
+        style: {
+          backgroundColor: '#fdfaf0'
+        },
+      }}>
+      <DialogContent>
+        <Container component='main' maxWidth='md'>
+          <CssBaseline />
+          <Box
+            style={{
+              my: 5,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar style={{ margin: '1%', backgroundColor: '#E28F83' }}>
+              <PersonOutlineOutlinedIcon />
+            </Avatar>
+            <Typography component='h1' variant='h6'>
+              Register Instructor
+            </Typography>
+            <Box component='form' noValidate onSubmit={handleSubmit} style={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete='given-name'
+                    name='name'
+                    value={name}
+                    required
+                    fullWidth
+                    id='name'
+                    label='First Name'
+                    autoFocus
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </Grid>
-                <Grid container justifyContent="flex-end">
-                  <Grid item>
-                    {alert.open ? (
-                      <AlertComponent
-                        open={alert.open}
-                        message={alert.message}
-                        severity={alert.severity}
-                      />
-                    ) : <></>}
-                  </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id='lastName'
+                    value={lastName}
+                    label='Last Name'
+                    name='lastName'
+                    autoComplete='family-name'
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
                 </Grid>
-              </Box>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id='email'
+                    value={email}
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label='Driving School'
+                    value={schoolName}
+                    disabled
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id='jmbg'
+                    value={jmbg}
+                    label='JMBG'
+                    name='jmbg'
+                    type='number'
+                    onChange={(e) => setJmbg(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id='phoneNumber'
+                    value={phoneNumber}
+                    label='Phone Number'
+                    name='phoneNumber'
+                    type='number'
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel>Category</InputLabel>
+                    <Select
+                      required
+                      value={category}
+                      label='Category'
+                      style={{ backgroundColor: '#fdfaf0' }}
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      {CATEGORIES.map((option) => (
+                        <MenuItem key={option.value} value={option.value} style={{ backgroundColor: '#fdfaf0' }}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label='Date of Birth'
+                      value={dateOfBirth}
+                      onChange={(newValue) => {
+                        setDateOfBirth(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} />
+              </Grid>
+              <Grid container justifyContent='flex-end'>
+                <Grid item>
+                  {alert.open ? (
+                    <AlertComponent
+                      open={alert.open}
+                      message={alert.message}
+                      severity={alert.severity}
+                    />
+                  ) : <></>}
+                </Grid>
+              </Grid>
             </Box>
-          </Container>
-        </DialogContent>
-        <DialogActions>
+          </Box>
+        </Container>
+      </DialogContent>
+      <DialogActions>
         <Button
-                  type="submit"
-                  variant="outlined"
-                  color="lightGreen"
-                  onClick={handleSubmit}
-                >
-                  Register
-                </Button>
-          <Button color="red" onClick={handleCloseModal}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
-    </ThemeProvider>
+          type='submit'
+          style={{ color: '#8E9775', border: '1px solid #8E9775' }}
+          onClick={handleSubmit}
+        >
+          Register
+        </Button>
+        <Button style={{ color: '#880808' }} onClick={handleCloseModal}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
   );
 }

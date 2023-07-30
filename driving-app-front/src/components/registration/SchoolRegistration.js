@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import { appColors } from '../../css/theme';
 import { addSchool } from '../../services/schoolService';
-import AlertComponent from "../../helpers/AlertComponent";
+import AlertComponent from '../../helpers/AlertComponent';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,17 +24,17 @@ export default function SchoolRegistration() {
   let [phoneNumber, setPhoneNumber] = React.useState('');
   let [email, setEmail] = React.useState('');
   let [description, setDescription] = React.useState('');
-  let [alert, setAlert] = React.useState({ open: false, message: "", severity: "" });
+  let [alert, setAlert] = React.useState({ open: false, message: '', severity: '' });
 
   const handleSuccess = () => {
-    setName("");
-    setYear("");
-    setAddress("");
-    setCity("");
-    setPhoneNumber("");
-    setEmail("");
-    setDescription("");
-    setAlert({ open: true, message: "School added successfully", severity: "success" });
+    setName('');
+    setYear('');
+    setAddress('');
+    setCity('');
+    setPhoneNumber('');
+    setEmail('');
+    setDescription('');
+    setAlert({ open: true, message: 'School added successfully', severity: 'success' });
   };
 
 
@@ -46,15 +46,15 @@ export default function SchoolRegistration() {
 
     setAlert({
       open: false,
-      message: "",
-      severity: "",
+      message: '',
+      severity: '',
     });
 
     if (!data.name) {
       setAlert({
         open: true,
         message: "School's name is required!",
-        severity: "warning",
+        severity: 'warning',
       });
       return;
     }
@@ -63,7 +63,7 @@ export default function SchoolRegistration() {
       setAlert({
         open: true,
         message: "School's number is required!",
-        severity: "warning",
+        severity: 'warning',
       });
       return;
     }
@@ -77,43 +77,43 @@ export default function SchoolRegistration() {
       })
       .catch(error => {
         console.log(error)
-        const errorData = error.response.data && error.response.data.length < 100 ? error.response.data : "Something went wrong"
+        const errorData = error.response.data && error.response.data.length < 100 ? error.response.data : 'Something went wrong'
         setAlert({
           open: true,
           message: errorData,
-          severity: "error",
+          severity: 'error',
         });
       });
   };
 
   return (
     <ThemeProvider theme={appColors}>
-      <Container component="main" maxWidth="md">
+      <Container component='main' maxWidth='md'>
         <CssBaseline />
         <Box
-          sx={{
+          style={{
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 0.5, bgcolor: '#8E9775' }}>
+          <Avatar style={{ margin: '1%', backgroundColor: '#8E9775' }}>
             <SchoolOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h6">
+          <Typography component='h1' variant='h6'>
             Add driving school
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component='form' noValidate onSubmit={handleSubmit} style={{ margin: '3% 0' }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="name"
+                  id='name'
                   value={name}
-                  label="Name"
-                  name="name"
+                  label='Name'
+                  name='name'
                   onChange={e => setName(e.target.value)}
                 />
               </Grid>
@@ -127,11 +127,11 @@ export default function SchoolRegistration() {
                       maxLength: 4
                     }
                   }}
-                  name="year"
+                  name='year'
                   value={year}
-                  label="Year"
-                  type="year"
-                  id="year"
+                  label='Year'
+                  type='year'
+                  id='year'
                   onChange={e => setYear(e.target.value)}
                 />
               </Grid>
@@ -139,10 +139,10 @@ export default function SchoolRegistration() {
                 <TextField
                   required
                   fullWidth
-                  id="address"
+                  id='address'
                   value={address}
-                  label="Address"
-                  name="address"
+                  label='Address'
+                  name='address'
                   onChange={e => setAddress(e.target.value)}
                 />
               </Grid>
@@ -150,10 +150,10 @@ export default function SchoolRegistration() {
                 <TextField
                   required
                   fullWidth
-                  id="city"
+                  id='city'
                   value={city}
-                  label="City"
-                  name="city"
+                  label='City'
+                  name='city'
                   onChange={e => setCity(e.target.value)}
                 />
               </Grid>
@@ -161,10 +161,10 @@ export default function SchoolRegistration() {
                 <TextField
                   required
                   fullWidth
-                  id="phoneNumber"
+                  id='phoneNumber'
                   value={phoneNumber}
-                  label="Phone Number"
-                  name="phoneNumber"
+                  label='Phone Number'
+                  name='phoneNumber'
                   InputProps={{
                     inputProps: {
                       type: 'number',
@@ -178,10 +178,10 @@ export default function SchoolRegistration() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
+                  id='email'
                   value={email}
-                  label="Email"
-                  name="email"
+                  label='Email'
+                  name='email'
                   onChange={e => setEmail(e.target.value)}
                 />
               </Grid>
@@ -189,10 +189,10 @@ export default function SchoolRegistration() {
                 <TextField
                   required
                   fullWidth
-                  id="description"
+                  id='description'
                   value={description}
-                  label="Description"
-                  name="Description"
+                  label='Description'
+                  name='Description'
                   onChange={e => setDescription(e.target.value)}
                   multiline
                   rows={4}
@@ -200,11 +200,11 @@ export default function SchoolRegistration() {
               </Grid>
               <Grid item xs={12}>
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
-                  color="lightGreen"
-                  sx={{ mt: 3, mb: 2 }}
+                  variant='contained'
+                  color='lightGreen'
+                  style={{ margin: '4% 0' }}
                 >
                   Create
                 </Button>

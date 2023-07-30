@@ -176,14 +176,14 @@ export default function UserListPage() {
 
   return (
     <div>
-      <Grid container justifyContent="center" alignItems="center">
-        <Typography component="h1" variant="h6" sx={{ m: 2, color: '#8E9775', fontFamily: 'sans-serif' }}>
+      <Grid container justifyContent='center' alignItems='center'>
+        <Typography component='h1' variant='h6' style={{ margin: '1%', color: '#8E9775', fontFamily: 'sans-serif' }}>
           ALL USERS
         </Typography>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
-          <Button variant="outline" style={{
+          <Button variant='outline' style={{
             backgroundColor: '#FAF2DA',
             margin: '0 1rem'
           }}
@@ -195,27 +195,27 @@ export default function UserListPage() {
             <TextField
               value={searchName}
               onChange={handleNameSearch}
-              id="standard-basic"
-              label="Search by name"
-              variant="standard"
+              id='standard-basic'
+              label='Search by name'
+              variant='standard'
               style={{ margin: '2%', width: '60%' }}
             />
-            <FormControl variant="standard" sx={{ margin: '2%', minWidth: 120, backgroundColor: '#fdfaf0', color: '#8E9775' }}>
+            <FormControl variant='standard' style={{ margin: '2%', minWidth: 120, backgroundColor: '#fdfaf0', color: '#8E9775' }}>
               <InputLabel></InputLabel>
               <Select
-                style={{ backgroundColor: "#fdfaf0" }}
-                value={roleFilter ? roleFilter : "All"}
+                style={{ backgroundColor: '#fdfaf0' }}
+                value={roleFilter ? roleFilter : 'All'}
                 onChange={handleRoleFilter}
               >
                 {ROLES.filter((role) => role.label !== 'Admin').map((option) => (
-                  <MenuItem key={option.value} value={option.value} style={{ backgroundColor: "#fdfaf0" }}>
+                  <MenuItem key={option.value} value={option.value} style={{ backgroundColor: '#fdfaf0' }}>
                     {option.label}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
-            <div style={{ maxHeight: "59vh", overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, backgroundColor: "white", marginTop: "5px" }}>
+            <div style={{ maxHeight: '59vh', overflow: 'auto' }}>
+              <div style={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: 'white', marginTop: '5px' }}>
               </div>
               <List style={{ marginTop: '1rem' }}>
                 {filteredUsers.map((user) => (
@@ -239,7 +239,7 @@ export default function UserListPage() {
             {selectedUser ? (
               <div style={{ color: '#2C3024', fontFamily: 'sans-serif' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="h5" gutterBottom>
+                  <Typography variant='h5' gutterBottom>
                     {selectedUser.name} {selectedUser.lastName}
                   </Typography>
                   <Button style={{ marginLeft: '2rem', border: '1px solid #E28F83', color: '#E28F83' }} onClick={handleOpenConformationDialog}>Delete user</Button>
@@ -251,18 +251,18 @@ export default function UserListPage() {
                     isChangedUser={isChangedUsers}
                     userId={selectedUser.id}
                     onSuccessful={setIsSuccess}
-                    title={"Confirm Delete"}
-                    text={"Are you sure you want to delete this user?"}
-                    buttonText={"Delete"} />
+                    title={'Confirm Delete'}
+                    text={'Are you sure you want to delete this user?'}
+                    buttonText={'Delete'} />
                 </div>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant='h6' gutterBottom>
                   {ROLES.find((r) => r.value === selectedUser.role) ? ROLES.find((r) => r.value === selectedUser.role).label : ''}
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant='body1' gutterBottom>
                   Category: {CATEGORIES.find((c) => c.value === selectedUser.category) ? CATEGORIES.find((c) => c.value === selectedUser.category).label : ''}
                 </Typography>
                 {selectedUser.schoolId &&
-                  <Typography variant="subtitle1" gutterBottom>
+                  <Typography variant='subtitle1' gutterBottom>
                     School:
                     <Link
                       style={{
@@ -278,25 +278,25 @@ export default function UserListPage() {
                     </Link>
                   </Typography>
                 }
-                <Typography variant="subtitle1" gutterBottom>
+                <Typography variant='subtitle1' gutterBottom>
                   Email: {selectedUser.email}
                 </Typography>
-                <Typography variant="subtitle1" gutterBottom>
+                <Typography variant='subtitle1' gutterBottom>
                   Phone number: {selectedUser.phoneNumber}
                 </Typography>
-                <Typography variant="subtitle1" gutterBottom>
-                  Date of birth: {selectedUser.dateOfBirth && moment(selectedUser.dateOfBirth).format("DD-MM-YYYY")}
+                <Typography variant='subtitle1' gutterBottom>
+                  Date of birth: {selectedUser.dateOfBirth && moment(selectedUser.dateOfBirth).format('DD-MM-YYYY')}
                 </Typography>
                 {selectedUser.role === 2 &&
                   <Grid style={{ marginTop: '2rem' }}>
                     {
                       selectedUser.passedTheory ?
                         (<Grid>
-                          <Typography variant="h6" style={{ color: '#8E9775', marginBottom: '0.5rem' }}>Passed theory</Typography>
-                          <Typography variant="subtitle1" gutterBottom>
+                          <Typography variant='h6' style={{ color: '#8E9775', marginBottom: '0.5rem' }}>Passed theory</Typography>
+                          <Typography variant='subtitle1' gutterBottom>
                             Number of classes: {selectedUser.numberOfClasses}
                           </Typography>
-                          <Typography variant="subtitle1" gutterBottom>
+                          <Typography variant='subtitle1' gutterBottom>
                             Number of exams: {selectedUser.numberOfExams}
                           </Typography>
                         </Grid>) :
@@ -315,9 +315,9 @@ export default function UserListPage() {
                             isChangedUser={isChangedUsers}
                             userId={selectedUser.id}
                             onSuccessful={setIsSuccess}
-                            title={"Confirm theory result"}
-                            text={"Are you sure that this user has passed the theory?"}
-                            buttonText={"Yes"} />
+                            title={'Confirm theory result'}
+                            text={'Are you sure that this user has passed the theory?'}
+                            buttonText={'Yes'} />
                         </Grid>)
                     }
                   </Grid>
@@ -332,7 +332,7 @@ export default function UserListPage() {
               </div>
             ) : (
               <div>
-                <Typography variant="body1">
+                <Typography variant='body1'>
                   No user selected.
                 </Typography>
                 {alert.open ? (

@@ -27,14 +27,14 @@ export default function Test() {
 
   return (
     <ThemeProvider theme={appColors}>
-      <Container component="main" maxWidth="xs">
+      <Container component='main' maxWidth='xs'>
 
-      <Typography component="h1" variant="h6">
-                Test
-              </Typography>
-                <Button variant="body2" color='#FAF2DA' onClick={handleClick}>
-                  Click
-                </Button>
+        <Typography component='h1' variant='h6'>
+          Test
+        </Typography>
+        <Button variant='body2' color='#FAF2DA' onClick={handleClick}>
+          Click
+        </Button>
       </Container>
     </ThemeProvider>
   );

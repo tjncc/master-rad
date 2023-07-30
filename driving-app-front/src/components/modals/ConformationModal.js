@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
 export default function ConformationModal(props) {
@@ -17,7 +17,7 @@ export default function ConformationModal(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>Cancel</Button>
-        <Button onClick={handleConformation} variant="contained" color="error">
+        <Button onClick={handleConformation} variant='contained' color='error'>
           {props.buttonText}
         </Button>
       </DialogActions>
