@@ -125,14 +125,14 @@ export default function SignInSide() {
 
   return (
     <ThemeProvider theme={appColors}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" style={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
           item
           xs={false}
-          sm={4}
-          md={7}
-          sx={{
+          sm={5}
+          md={6}
+          style={{
             backgroundImage: `url(${carImage})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
@@ -140,11 +140,10 @@ export default function SignInSide() {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={7} md={6} component={Paper} elevation={6} square>
           <Box
-            sx={{
-              my: 5,
-              mx: 4,
+            style={{
+              margin: '6%',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -153,19 +152,19 @@ export default function SignInSide() {
             <Typography
               component="h1"
               variant="h5"
-              sx={{ color: '#4A503D', cursor: 'pointer' }}
+              style={{ color: '#4A503D', cursor: 'pointer' }}
               onClick={() => navigate('/')}
             >
               Driving School
             </Typography>
             <br />
-            <Avatar sx={{ m: 0.5, bgcolor: '#8E9775' }}>
+            <Avatar style={{ margin: '1%', backgroundColor: '#8E9775' }}>
               <PersonOutlineOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h6">
               Register as Student
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit} style={{ margin: '3%' }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -300,14 +299,13 @@ export default function SignInSide() {
                     />
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} />
               </Grid>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="lightGreen"
-                sx={{ mt: 3, mb: 2 }}
+                style={{ margin: '3% 0' }}
               >
                 Sign Up
               </Button>

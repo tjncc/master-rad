@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Typography, Grid, Card, CardContent } from '@material-ui/core';
+import { Avatar, Typography, Grid, Card, CardContent } from '@mui/material';
 import { getUser, updateUser, chooseInstrcutor, getInstructorsBySchool } from '../../services/userService';
 import { getSchool } from '../../services/schoolService';
 import { CATEGORIES } from '../../helpers/categoryEnum';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { format } from 'date-fns';
 import { ROLES } from '../../helpers/roleEnum';
@@ -15,23 +15,23 @@ import {
 } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  rootProfilePage: {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  avatar: {
+  avatarProfilePage: {
     width: theme.spacing(6),
     height: theme.spacing(6),
     margin: 'auto',
     backgroundColor: '#8E9775'
   },
-  name: {
+  nameProfilePage: {
     marginTop: theme.spacing(2),
   },
-  card: {
+  cardProfilePage: {
     backgroundColor: '#FAF2DA'
   },
-  role: {
+  roleProfilePage: {
     justifyContent: 'center',
     alignContent: 'center'
   }
@@ -57,21 +57,21 @@ export default function ProfilePage() {
       getUser(userId)
         .then(response => {
           setUser(response.data);
-          
+
           if (response.data) {
             const categoryId = response.data.category;
             getSchool(response.data.schoolId)
               .then(response => {
                 setSchoolName(response.data.name);
-                
+
                 if (response.data) {
                   getInstructorsBySchool(response.data.id, categoryId)
-                  .then(response => {
-                    setAllInstructors(response.data);
-                  })
-                  .catch(error => {
-                    console.log(error);
-                  });
+                    .then(response => {
+                      setAllInstructors(response.data);
+                    })
+                    .catch(error => {
+                      console.log(error);
+                    });
                 }
               })
               .catch(error => {
@@ -87,7 +87,7 @@ export default function ProfilePage() {
 
   const getDateFormat = (date) => {
     const d = new Date(date);
-    return format(d, "dd.MM.yyyy.");
+    return format(d, 'dd.MM.yyyy.');
   }
 
 
@@ -99,12 +99,12 @@ export default function ProfilePage() {
   const handleSetInstructorId = (instructorId) => {
     setInstructorId(instructorId);
     chooseInstrcutor(user.id, instructorId)
-    .then(response => {
-      setUser(response.data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        setUser(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   const handleSubmit = () => {
@@ -147,44 +147,44 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className={classes.root}>
-      <Grid container direction="row" spacing={2}>
+    <div className={classes.rootProfilePage}>
+      <Grid container direction='row' spacing={2}>
         <Grid item xs={4}>
-          <Card className={classes.card}>
+          <Card className={classes.cardProfilePage}>
             <CardContent>
-              <Grid container direction="column" alignItems="center" spacing={2}>
+              <Grid container direction='column' alignItems='center' spacing={2}>
                 <Grid item>
-                  <Avatar className={classes.avatar} />
+                  <Avatar className={classes.avatarProfilePage} />
                 </Grid>
                 {user ? (
                   <Grid item>
-                    <Grid container direction="column" alignItems="center">
+                    <Grid container direction='column' alignItems='center'>
                       <Grid item>
-                        <Typography variant="h5" className={classes.name}>
+                        <Typography variant='h5' className={classes.nameProfilePage}>
                           {user.name} {user.lastName}
                         </Typography>
                         <br />
                       </Grid>
                       <Grid container spacing={2}>
                         <Grid item xs={5}>
-                          <Typography variant="subtitle1" style={{ margin: '10% 0' }}>Date of Birth:</Typography>
-                          <Typography variant="subtitle1" style={{ margin: '12% 0' }}>Email:</Typography>
-                          <Typography variant="subtitle1" style={{ margin: '22% 0' }}>Phone number:</Typography>
+                          <Typography variant='subtitle1' style={{ margin: '10% 0' }}>Date of Birth:</Typography>
+                          <Typography variant='subtitle1' style={{ margin: '12% 0' }}>Email:</Typography>
+                          <Typography variant='subtitle1' style={{ margin: '22% 0' }}>Phone number:</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="subtitle1" style={{ marginTop: '6%' }}>
+                          <Typography variant='subtitle1' style={{ marginTop: '6%' }}>
                             {getDateFormat(user.dateOfBirth)}
                           </Typography>
                           <TextField
-                            variant="outlined"
-                            name="email"
+                            variant='outlined'
+                            name='email'
                             value={user.email}
                             onChange={handleChange}
                             style={{ width: '250px', margin: '2% 0' }}
                           />
                           <TextField
-                            variant="outlined"
-                            name="phoneNumber"
+                            variant='outlined'
+                            name='phoneNumber'
                             value={user.phoneNumber}
                             onChange={handleChange}
                             style={{ width: '250px', margin: '2% 0' }}
@@ -223,44 +223,44 @@ export default function ProfilePage() {
                 SCHOOL INFO
               </Typography>
               {user.schoolId &&
-              <Grid>
-                <Typography variant="h6" gutterBottom>
-                  School name:
-                  <Link
-                    style={{
-                      color: '#2C3024',
-                      fontFamily: 'sans-serif',
-                      textDecoration: 'none',
-                      padding: '0.5rem 1rem',
-                      borderRadius: '20px',
-                      backgroundColor: '#FAF2DA'
-                    }}
-                    to={`/school/${user.schoolId}`}>
-                    {schoolName}
-                  </Link>
-                </Typography>
-                { localStorage.getItem('role') === "Student" &&
-                <FormControl fullWidth>
-                <Typography variant="h6" gutterBottom>
-                  Instructor: 
-                    <Select
-                      required
-                      value={user.instructorId}
-                      onChange={(e) => handleSetInstructorId(e.target.value)}
-                      style={{width: '22%', margin: '0 2%'}}
-                    >
-                      {allInstructors.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                          {option.name} {option.lastName}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    </Typography>
+                <Grid>
+                  <Typography variant='h6' gutterBottom>
+                    School name:
+                    <Link
+                      style={{
+                        color: '#2C3024',
+                        fontFamily: 'sans-serif',
+                        textDecoration: 'none',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '20px',
+                        backgroundColor: '#FAF2DA'
+                      }}
+                      to={`/school/${user.schoolId}`}>
+                      {schoolName}
+                    </Link>
+                  </Typography>
+                  {localStorage.getItem('role') === 'Student' &&
+                    <FormControl fullWidth>
+                      <Typography variant='h6' gutterBottom>
+                        Instructor:
+                        <Select
+                          required
+                          value={user.instructorId}
+                          onChange={(e) => handleSetInstructorId(e.target.value)}
+                          style={{ width: '22%', margin: '0 2%' }}
+                        >
+                          {allInstructors.map((option) => (
+                            <MenuItem key={option.id} value={option.id}>
+                              {option.name} {option.lastName}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Typography>
                     </FormControl>
                   }
                 </Grid>
               }
-              <Typography variant="h6">Category: {CATEGORIES.find((c) => c.value === user.category) ? CATEGORIES.find((c) => c.value === user.category).label : ''}
+              <Typography variant='h6'>Category: {CATEGORIES.find((c) => c.value === user.category) ? CATEGORIES.find((c) => c.value === user.category).label : ''}
               </Typography>
             </Grid>
             {user.role === 2 &&
@@ -269,10 +269,10 @@ export default function ProfilePage() {
                   style={{ color: '#8E9775', fontSize: '22px' }}>
                   STUDENT INFO
                 </Typography>
-                {!user.passedTheory && <Typography variant="h6" style={{ color: '#E28F83' }}>Not passed theory</Typography>}
-                {user.passedTheory && <Typography variant="h6" style={{ color: '#8E9775' }}>Passed theory</Typography>}
-                <Typography variant="h6">Number of remaining classes: {user.numberOfClasses}</Typography>
-                <Typography variant="h6">Number of exam attempts: {user.numberOfExams} </Typography>
+                {!user.passedTheory && <Typography variant='h6' style={{ color: '#E28F83' }}>Not passed theory</Typography>}
+                {user.passedTheory && <Typography variant='h6' style={{ color: '#8E9775' }}>Passed theory</Typography>}
+                <Typography variant='h6'>Number of remaining classes: {user.numberOfClasses}</Typography>
+                <Typography variant='h6'>Number of exam attempts: {user.numberOfExams} </Typography>
               </Grid>
             }
           </Grid>

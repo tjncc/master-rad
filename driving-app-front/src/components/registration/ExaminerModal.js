@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Dialog, DialogContent, DialogActions, TextField } from '@material-ui/core';
+import { Dialog, DialogContent, DialogActions, TextField } from '@mui/material';
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -94,34 +94,33 @@ export default function ExaminerModal(props) {
           },
         }}>
         <DialogContent>
-          <Container component="main" maxWidth="md">
+          <Container component='main' maxWidth='md'>
             <CssBaseline />
             <Box
-              sx={{
-                my: 5,
-                mx: 4,
+              style={{
+                margin: '2.5%',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 0.5, bgcolor: '#E28F83' }}>
+              <Avatar style={{ margin: '1%', backgroundColor: '#E28F83' }}>
                 <PersonOutlineOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h6">
+              <Typography component='h1' variant='h6'>
                 Register Examiner
               </Typography>
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+              <Box component='form' noValidate onSubmit={handleSubmit} style={{ margin: '1%' }}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      autoComplete="given-name"
-                      name="name"
+                      autoComplete='given-name'
+                      name='name'
                       value={name}
                       required
                       fullWidth
-                      id="name"
-                      label="First Name"
+                      id='name'
+                      label='First Name'
                       autoFocus
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -130,11 +129,11 @@ export default function ExaminerModal(props) {
                     <TextField
                       required
                       fullWidth
-                      id="lastName"
+                      id='lastName'
                       value={lastName}
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
+                      label='Last Name'
+                      name='lastName'
+                      autoComplete='family-name'
                       onChange={(e) => setLastName(e.target.value)}
                     />
                   </Grid>
@@ -142,11 +141,11 @@ export default function ExaminerModal(props) {
                     <TextField
                       required
                       fullWidth
-                      id="email"
+                      id='email'
                       value={email}
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
+                      label='Email Address'
+                      name='email'
+                      autoComplete='email'
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </Grid>
@@ -154,11 +153,11 @@ export default function ExaminerModal(props) {
                     <TextField
                       required
                       fullWidth
-                      id="jmbg"
+                      id='jmbg'
                       value={jmbg}
-                      label="JMBG"
-                      name="jmbg"
-                      type="number"
+                      label='JMBG'
+                      name='jmbg'
+                      type='number'
                       onChange={(e) => setJmbg(e.target.value)}
                     />
                   </Grid>
@@ -166,11 +165,11 @@ export default function ExaminerModal(props) {
                     <TextField
                       required
                       fullWidth
-                      id="phoneNumber"
+                      id='phoneNumber'
                       value={phoneNumber}
-                      label="Phone Number"
-                      name="phoneNumber"
-                      type="number"
+                      label='Phone Number'
+                      name='phoneNumber'
+                      type='number'
                       onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                   </Grid>
@@ -180,12 +179,12 @@ export default function ExaminerModal(props) {
                       <Select
                         required
                         value={category}
-                        label="Category"
-                        style={{backgroundColor: "#fdfaf0"}}
+                        label='Category'
+                        style={{ backgroundColor: '#fdfaf0' }}
                         onChange={(e) => setCategory(e.target.value)}
                       >
                         {CATEGORIES.map((option) => (
-                          <MenuItem key={option.value} value={option.value} style={{backgroundColor: "#fdfaf0"}}>
+                          <MenuItem key={option.value} value={option.value} style={{ backgroundColor: '#fdfaf0' }}>
                             {option.label}
                           </MenuItem>
                         ))}
@@ -195,7 +194,7 @@ export default function ExaminerModal(props) {
                   <Grid item xs={12} sm={6}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
-                        label="Date of Birth"
+                        label='Date of Birth'
                         value={dateOfBirth}
                         onChange={(newValue) => {
                           setDateOfBirth(newValue);
@@ -206,7 +205,7 @@ export default function ExaminerModal(props) {
                   </Grid>
                   <Grid item xs={12} />
                 </Grid>
-                <Grid container justifyContent="flex-end">
+                <Grid container justifyContent='flex-end'>
                   <Grid item>
                     {alert.open ? (
                       <AlertComponent
@@ -221,16 +220,16 @@ export default function ExaminerModal(props) {
             </Box>
           </Container>
         </DialogContent>
-        <DialogActions>
-        <Button
-                  type="submit"
-                  variant="outlined"
-                  color="lightGreen"
-                  onClick={handleSubmit}
-                >
-                  Register
-                </Button>
-          <Button color="red" onClick={handleCloseModal}>Cancel</Button>
+        <DialogActions style={{ margin: '0.5% 4%' }}>
+          <Button
+            type='submit'
+            variant='outlined'
+            color='lightGreen'
+            onClick={handleSubmit}
+          >
+            Register
+          </Button>
+          <Button color='red' onClick={handleCloseModal}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </ThemeProvider>

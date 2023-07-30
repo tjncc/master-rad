@@ -1,4 +1,4 @@
-import { Snackbar } from '@material-ui/core';
+import { Snackbar } from '@mui/material';
 import { Alert } from '@material-ui/lab';
 import * as React from 'react';
 

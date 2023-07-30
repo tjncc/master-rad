@@ -62,7 +62,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
     setIsExam(event.target.value)
 
     const startTime = moment(selectedSlot.start);
-    const endTime = moment(selectedSlot.start).add(1, "hour");
+    const endTime = moment(selectedSlot.start).add(1, 'hour');
 
     getAvailableExaminers(startTime, endTime)
       .then(response => {
@@ -81,7 +81,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
         studentId: student.id,
         instructorId: instructor.id,
         startTime: moment(selectedSlot.start),
-        endTime: moment(selectedSlot.start).add(1, "hour")
+        endTime: moment(selectedSlot.start).add(1, 'hour')
       };
       onSubmit(eventData);
     } else {
@@ -90,7 +90,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
         studentId: student.id,
         examinerId: examiner.id,
         startTime: moment(selectedSlot.start),
-        endTime: moment(selectedSlot.start).add(1, "hour")
+        endTime: moment(selectedSlot.start).add(1, 'hour')
       };
       onSubmit(eventData);
     }
@@ -113,7 +113,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
                       <Select
                         required
                         value={isExam}
-                        label="Class or Exam"
+                        label='Class or Exam'
                         onChange={handleIsExamChange}
                       >
                         <MenuItem value={false}>Class</MenuItem>
@@ -123,20 +123,20 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
                   </div>
                 ) : (
                   <div className={classes.formGroup}>
-                    <Typography variant="h5" style={{ textAlign: 'center' }}>
+                    <Typography variant='h5' style={{ textAlign: 'center' }}>
                       Driving class
                     </Typography>
                   </div>
                 )}
               </div>
               <div className={classes.formGroup}>
-                <Typography variant="h7">
+                <Typography variant='h7'>
                   Student: {student.name} {student.lastName}
                 </Typography>
               </div>
               {!isExam &&
                 <div className={classes.formGroup}>
-                  <Typography variant="h7">
+                  <Typography variant='h7'>
                     Instructor: {instructor.name} {instructor.lastName}
                   </Typography>
                 </div>
@@ -148,7 +148,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
                     <Select
                       required
                       value={examiner.id}
-                      label="Examiner"
+                      label='Examiner'
                       onChange={(e) => setExaminer(e.target.value)}
                     >
                       {examiners && examiners.map((option) => (
@@ -161,18 +161,18 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
                 </div>
               )}
               <div className={classes.formGroup}>
-                <Typography variant="h7">
-                  Date: {selectedSlot.start && moment(selectedSlot.start).format("DD-MM-YYYY")}
+                <Typography variant='h7'>
+                  Date: {selectedSlot.start && moment(selectedSlot.start).format('DD-MM-YYYY')}
                 </Typography>
               </div>
               <div className={classes.formGroup}>
-                <Typography variant="h7">
-                  Start: {selectedSlot.start && moment(selectedSlot.start).format("hh:mm A")}
+                <Typography variant='h7'>
+                  Start: {selectedSlot.start && moment(selectedSlot.start).format('hh:mm A')}
                 </Typography>
               </div>
               <div className={classes.formGroup}>
-                <Typography variant="h7">
-                  End: {selectedSlot.start && moment(selectedSlot.start).add(1, "hour").format("hh:mm A")}
+                <Typography variant='h7'>
+                  End: {selectedSlot.start && moment(selectedSlot.start).add(1, 'hour').format('hh:mm A')}
                 </Typography>
               </div>
               {!isExam &&
@@ -181,7 +181,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
                   <Select
                     required
                     value={classType}
-                    label="Class Type"
+                    label='Class Type'
                     onChange={(e) => setClassType(e.target.value)}
                   >
                     {CLASS_TYPES.map((option) => (
@@ -193,7 +193,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
                 </FormControl>
               }
               <Grid style={{ margin: '0 auto', display: 'block', textAlign: 'center' }}>
-                <Button variant="contained" type="submit"
+                <Button variant='contained' type='submit'
                   style={{ margin: '1rem 0rem', border: '1px solid #8E9775', backgroundColor: '#8E9775', color: 'white', padding: '0.5rem 1rem' }}
                 >
                   Create

@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import NewEventModal from './NewEventModal';
 import { addAppointment, getAppointmentsByUser, confirmEvent, removeEvent, updateExamResult } from '../../services/appointmentService';
 import AlertComponent from '../../helpers/AlertComponent';
@@ -26,14 +26,14 @@ export default function MyCalendar() {
 
   const eventStyleGetter = (event) => {
     const colorCode = event.studentId.toString() === localStorage.getItem('id') ?
-      (event.isExam ? "#E28F83" : "#4A503D") : "#8E9775";
+      (event.isExam ? '#E28F83' : '#4A503D') : '#8E9775';
 
     const style = {
       backgroundColor: colorCode,
-      borderRadius: "5px",
+      borderRadius: '5px',
       opacity: event.isConfirmed ? 0.8 : 0.2,
-      color: "#FFF",
-      border: "none",
+      color: '#FFF',
+      border: 'none',
     };
 
     return {
@@ -50,7 +50,7 @@ export default function MyCalendar() {
           const currentUser = await getUser(localStorage.getItem('id'));
           if (currentUser.data) {
             setUser(currentUser.data);
-            
+
             const response = await getAppointmentsByUser(currentUser.data.id, currentUser.data.role);
 
             const newEvents = response.data.map((appointment) => {
@@ -60,7 +60,7 @@ export default function MyCalendar() {
               const eventName = localStorage.getItem('role') === 'Student' ? instructorName : studentName;
               return {
                 id: id,
-                title: eventName ?? "Exam",
+                title: eventName ?? 'Exam',
                 start: new Date(start),
                 end: new Date(end),
                 studentId: studentId,
@@ -244,14 +244,14 @@ export default function MyCalendar() {
 
   return (
     <ThemeProvider theme={appColors}>
-      <Container component="main" style={{ marginTop: "1rem" }}>
+      <Container component='main' style={{ marginTop: '1rem' }}>
         <Calendar
           defaultView='week'
           selectable
           localizer={localizer}
           events={events}
-          startAccessor="start"
-          endAccessor="end"
+          startAccessor='start'
+          endAccessor='end'
           min={new Date(0, 0, 0, 8, 0, 0)}
           max={new Date(0, 0, 0, 20, 0, 0)}
           style={{ height: 600, width: 1100 }}

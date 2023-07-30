@@ -71,14 +71,14 @@ export default function LoginPage() {
 
   return (
     <ThemeProvider theme={appColors}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component='main' style={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
           item
           xs={false}
           sm={4}
           md={7}
-          sx={{
+          style={{
             backgroundImage: `url(${carImage})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
@@ -88,40 +88,39 @@ export default function LoginPage() {
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
-            sx={{
-              my: 5,
-              mx: 4,
+            style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              margin: '10% 5%'
             }}
           >
             <Typography
-              component="h1"
-              variant="h5"
-              sx={{ color: '#4A503D', cursor: 'pointer' }}
+              component='h1'
+              variant='h5'
+              style={{ color: '#4A503D', cursor: 'pointer' }}
               onClick={() => navigate('/')}
             >
               Driving School
             </Typography>
             <br />
-            <Avatar sx={{ m: 0.5, bgcolor: '#8E9775' }}>
+            <Avatar style={{ margin: '1%', backgroundColor: '#8E9775' }}>
               <PersonOutlineOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h6">
+            <Typography component='h1' variant='h6'>
               Log in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Box component='form' noValidate onSubmit={handleSubmit} style={{ margin: '5%' }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    id="email"
+                    id='email'
                     value={email}
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Grid>
@@ -129,29 +128,29 @@ export default function LoginPage() {
                   <TextField
                     required
                     fullWidth
-                    name="password"
+                    name='password'
                     value={password}
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
+                    label='Password'
+                    type='password'
+                    id='password'
+                    autoComplete='new-password'
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} />
               </Grid>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="lightGreen"
-                sx={{ mt: 3, mb: 2 }}
+                variant='contained'
+                color='lightGreen'
+                style={{ margin: '3% 0' }}
               >
                 Log in
               </Button>
-              <Grid container justifyContent="flex-end">
+              <Grid container justifyContent='flex-end'>
                 <Grid item>
-                  <Link href="/register/student" variant="body2" color="inherit">
+                  <Link href='/register/student' variant='body2' color='inherit'>
                     Don`t have an account? Sign up
                   </Link>
                   {alert.open ? (

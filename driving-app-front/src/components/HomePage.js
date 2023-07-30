@@ -1,10 +1,9 @@
 import React from 'react'
-import '../css/HomePage.css'
 
 const HomePage = () => {
 
   return (
-    <div className="mainDiv">
+    <div className='mainDiv'>
       <h1>Home</h1>
     </div>
   );

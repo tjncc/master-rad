@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '6%'
   },
   linkButton: {
-    display: "inline-block",
-    padding: "12px 24px",
+    display: 'inline-block',
+    padding: '12px 24px',
     backgroundColor: '#8E9775',
     fontFamily: 'Open Sans',
     color: '#FAF2DA',
     borderRadius: '6% 6%',
     textDecoration: 'none',
-    "&:hover": {
+    '&:hover': {
       textDecoration: 'none',
       backgroundColor: '#4A503D',
       color: '#FAF2DA'
@@ -56,39 +56,39 @@ export default function UserVerification() {
 
   return (
     <ThemeProvider theme={appColors}>
-      <Container component="main" maxWidth="xs">
+      <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <Box
-          sx={{
-            marginTop: 8,
+          style={{
+            marginTop: '6%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 0.5, bgcolor: '#8E9775' }}>
+          <Avatar style={{ margin: '5%', backgroundColor: '#8E9775' }}>
             <DirectionsCarIcon />
           </Avatar>
           <br />
           {isVerified ? (
             <div>
-              <Typography component="h1" variant="h6">
+              <Typography component='h1' variant='h6'>
                 You have successfully verified your account! You can now log in.
               </Typography>
               <div className={classes.linkContainer}>
-                <Link href="/login" variant="body2" color='#FAF2DA' className={classes.linkButton}>
+                <Link href='/login' variant='body2' color='#FAF2DA' className={classes.linkButton}>
                   Log in
                 </Link>
               </div>
             </div>
           ) : (
             <div>
-              <Typography component="h1" variant="h6">
+              <Typography component='h1' variant='h6'>
                 Something went wrong with your email verification!
                 If you still don't have an active account, please try again with registration.
               </Typography>
               <div className={classes.linkContainer}>
-                <Link href="/register/student" variant="body2" color='#FAF2DA' className={classes.linkButton}>
+                <Link href='/register/student' variant='body2' color='#FAF2DA' className={classes.linkButton}>
                   Register
                 </Link>
               </div>
