@@ -72,7 +72,7 @@ namespace DrivingApp.Services
 			}
 
 			var student = await _userService.GetAsync(appointment.StudentId);
-			var client = new SendGridClient("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");
+			var client = new SendGridClient("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");
 			var templateId = "";
 
 			if (!appointment.IsExam)
@@ -104,7 +104,7 @@ namespace DrivingApp.Services
 			}
 
 			var student = await _userService.GetAsync(appointment.StudentId);
-			var client = new SendGridClient("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");
+			var client = new SendGridClient("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");
 
 			if (!appointment.IsExam)
 			{
@@ -145,7 +145,7 @@ namespace DrivingApp.Services
 			var appointment = await _appointmentRepo.GetAsync(id);
 
 			var student = await _userService.GetAsync(appointment.StudentId);
-			var client = new SendGridClient("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");
+			var client = new SendGridClient("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");
 			
 			var sendGridMessageInstructor = GetSendGridMessageForExamResult(hasPassed, student.Name, student.Email);
 			await client.SendEmailAsync(sendGridMessageInstructor);

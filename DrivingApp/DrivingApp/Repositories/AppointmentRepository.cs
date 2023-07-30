@@ -196,6 +196,8 @@ namespace DrivingApp.Repositories
 			if (hasPassed)
 			{
 				appointment.ExamStatus = ExamStatus.Passed;
+				Student student = await _context.Students.Where(student => student.Id == appointment.StudentId).SingleOrDefaultAsync();
+				student.PassedDriving = true;
 			}
 			else
 			{

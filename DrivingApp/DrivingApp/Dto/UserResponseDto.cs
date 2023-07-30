@@ -18,6 +18,7 @@ namespace DrivingApp.Dto
 		public uint? NumberOfClasses { get; set; }
 		public uint? NumberOfExams { get; set; }
 		public bool? PassedTheory { get; set; }
+		public bool? PassedDriving { get; set; }
 		public long? InstructorId { get; set; }
 	}
 }
