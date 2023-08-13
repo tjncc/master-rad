@@ -41,8 +41,12 @@ namespace DrivingApp.Services
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = creds,
-                Audience = "http://localhost:3000",
-                Issuer = "https://localhost:44354"
+                //Audience = "http://localhost:3000",
+                Issuer = "https://localhost:44354",
+                Claims = new Dictionary<string, object>
+                {
+                    { JwtRegisteredClaimNames.Aud, new string [] { "http://localhost:3000", "http://192.168.0.30:8081"} }
+                }
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
