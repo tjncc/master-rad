@@ -7,6 +7,7 @@ import RegistrationPage from './components/RegistrationPage';
 import Header from './shared/header';
 import { globalStyles } from './shared/theme';
 import LoginPage from './components/LoginPage';
+import MapPage from './components/MapPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,16 @@ export default function App() {
           component={LoginPage}
           options={{
             headerTitle: () => <Header title='Log in' icon={false} />,
+            headerStyle: {
+              backgroundColor: globalStyles.palette.lightGreen
+            }
+          }}
+        />
+        <Stack.Screen
+          name="Map"
+          component={MapPage}
+          options={{
+            headerTitle: () => <Header title='Map' icon={false} />,
             headerStyle: {
               backgroundColor: globalStyles.palette.lightGreen
             }

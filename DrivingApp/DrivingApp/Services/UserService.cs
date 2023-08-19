@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using DrivingApp.Common.Enum;
 using DrivingApp.Common.Exceptions;
 using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
@@ -86,6 +87,12 @@ namespace DrivingApp.Services
 		public async Task UpdateNumberOfExams(long id, bool increment)
 		{
 			await _userRepository.UpdateNumberOfExams(id, increment);
+		}
+
+		public async Task<List<UserResponseDto>> GetStudentsByInstructor(long instructorId)
+{
+			var students = await _userRepository.GetStudentsByInstructor(instructorId);
+			return _mapper.Map<List<UserResponseDto>>(students);
 		}
 	}
 }

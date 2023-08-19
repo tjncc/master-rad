@@ -1,3 +1,3 @@
 export default {
-  baseUrl: 'https://e593-188-2-19-45.ngrok-free.app',
+  baseUrl: 'https://a0e8-188-2-8-31.ngrok-free.app',
 };
