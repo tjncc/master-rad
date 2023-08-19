@@ -14,6 +14,8 @@ namespace DrivingApp.Interface.Services
 
 		Task<List<UserResponseDto>> GetInstructorsBySchool(long schoolId, short categoryId);
 
+		Task<List<UserResponseDto>> GetStudentsByInstructor(long instructorId);
+
 		Task<List<UserResponseDto>> GetAllUsersAsync();
 
 		void Delete(long id);

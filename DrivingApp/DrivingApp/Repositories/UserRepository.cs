@@ -182,5 +182,10 @@ namespace DrivingApp.Repositories
 
             return availableExaminers;
         }
+
+		public async Task<List<Student>> GetStudentsByInstructor(long instructorId)
+		{
+            return await _context.Students.Where(s => s.InstructorId == instructorId).ToListAsync();
+		}
 	}
 }

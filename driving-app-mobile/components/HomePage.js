@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Pressable } from 'react-native';
 import homeImage from '../img/registration.jpg';
 import { globalStyles } from '../shared/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
+import ChooseStudentModal from '../modals/ChooseStudentModal';
 
 export default function HomePage(props) {
   const [name, setName] = useState('')
+  const [instructorId, setInstructorId] = useState('');
   const [role, setRole] = React.useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -22,11 +25,15 @@ export default function HomePage(props) {
     try {
       const jwtToken = await AsyncStorage.getItem('jwtToken');
       const name = await AsyncStorage.getItem('name');
+      const role = await AsyncStorage.getItem('role');
+      const id = await AsyncStorage.getItem('id');
+
       if (jwtToken) {
         setIsLoggedIn(true);
-        console.log(jwtToken);
-        console.log(name);
         setName(name);
+        if (role === 'Instructor') {
+          setInstructorId(id);
+        }
       } else {
         setIsLoggedIn(false);
       }
@@ -34,6 +41,10 @@ export default function HomePage(props) {
       console.log('Error checking login status:', error);
     }
   };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  }
 
   const logout = async () => {
     await AsyncStorage.removeItem('jwtToken');
@@ -49,6 +60,11 @@ export default function HomePage(props) {
   const openLogin = () => {
     props.navigation.navigate('Login');
   };
+
+  const openMap = () => {
+    props.navigation.navigate('Map');
+  };
+
 
   return (
     <View style={styles.container}>
@@ -73,17 +89,26 @@ export default function HomePage(props) {
           isLoggedIn &&
           <View>
             <Text style={styles.title}>{name}, welcome to Driving school!</Text>
+            {instructorId &&
+              <View style={styles.centeredView}>
+                <Pressable
+                  style={styles.buttonModal}
+                  onPress={() => setModalVisible(true)}>
+                  <Text style={styles.buttonModalText}>Start a class</Text>
+                </Pressable>
+                <ChooseStudentModal modalVisible={modalVisible} handleClose={handleCloseModal} instructorId={instructorId} navigation={props.navigation} />
+              </View>
+            }
           </View>
         }
       </View>
       {isLoggedIn &&
         <View style={styles.footer}>
-          <TouchableOpacity onPress={openRegistration}>
-            <MaterialIcons name='person' size={20} color={globalStyles.palette.darkGreen} style={styles.icon} />
-          </TouchableOpacity>
+
           <TouchableOpacity onPress={logout}>
             <Text style={styles.logout}>Log out</Text>
           </TouchableOpacity>
+
         </View>
       }
     </View>
@@ -128,7 +153,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: globalStyles.palette.darkGreen,
     marginBottom: 18
-
   },
   loginButtonText: {
     color: globalStyles.palette.beige,
@@ -158,7 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   logout: {
-    left: 140,
+    left: 120,
     color: globalStyles.palette.red,
     fontFamily: globalStyles.titleText.fontFamily,
     fontSize: 16,
@@ -166,5 +190,22 @@ const styles = StyleSheet.create({
     padding: 5,
     borderColor: globalStyles.palette.red,
     borderRadius: 10,
+  },
+  buttonModal: {
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 2,
+    borderRadius: 50,
+    backgroundColor: globalStyles.palette.peach,
+    borderWidth: 1,
+    borderColor: globalStyles.palette.darkGreen,
+    marginBottom: 18,
+    marginLeft: 80,
+    marginRight: 80
+  },
+  buttonModalText: {
+    fontFamily: globalStyles.titleText.fontFamily,
+    color: globalStyles.palette.darkGreen,
+    fontSize: 20,
   }
 });
