@@ -8,7 +8,7 @@ namespace DrivingApp.Interface.Services
 	{
 		Task<RouteDto> GetAsync(long id);
 
-		Task<List<RouteDto>> GetByStudentIdAsync(long studentId);
+		Task<List<SimpleRouteDto>> GetByStudentIdAsync(long studentId);
 
 		Task<RouteDto> AddAsync(RouteDto routeDto);
 

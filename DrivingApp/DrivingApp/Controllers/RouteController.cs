@@ -34,9 +34,9 @@ namespace DrivingApp.Controllers
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-		public async Task<ActionResult<RouteDto>> GetRoutesByStudent(long id)
+		public async Task<ActionResult<SimpleRouteDto>> GetRoutesByStudent(long id)
 		{
-			List<RouteDto> routes = await _routeService.GetByStudentIdAsync(id);
+			List<SimpleRouteDto> routes = await _routeService.GetByStudentIdAsync(id);
 			return Ok(routes);
 		}
 

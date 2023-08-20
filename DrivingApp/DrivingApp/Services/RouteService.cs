@@ -29,10 +29,10 @@ namespace DrivingApp.Services
 			return _mapper.Map<RouteDto>(route);
 		}
 
-		public async Task<List<RouteDto>> GetByStudentIdAsync(long studentId)
+		public async Task<List<SimpleRouteDto>> GetByStudentIdAsync(long studentId)
 		{
 			var routes = await _routeRepo.GetByStudentIdAsync(studentId);
-			return _mapper.Map<List<RouteDto>>(routes);
+			return _mapper.Map<List<SimpleRouteDto>>(routes);
 		}
 
 		public async Task<RouteDto> AddAsync(RouteDto routeDto)

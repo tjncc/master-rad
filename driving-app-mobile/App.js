@@ -8,6 +8,7 @@ import Header from './shared/header';
 import { globalStyles } from './shared/theme';
 import LoginPage from './components/LoginPage';
 import MapPage from './components/MapPage';
+import RoutesPreview from './components/RoutesPreview';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +56,15 @@ export default function App() {
           options={{
             headerTitle: () => <Header title='Map' icon={false} />,
             headerStyle: {
+              backgroundColor: globalStyles.palette.lightGreen
+            }
+          }}
+        />
+        <Stack.Screen
+          name="Routes"
+          component={RoutesPreview}
+          options={{
+            headerTitle: () => <Header title='Routes' icon={false} />, headerStyle: {
               backgroundColor: globalStyles.palette.lightGreen
             }
           }}

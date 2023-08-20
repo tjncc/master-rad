@@ -1,14 +1,12 @@
 ﻿using DrivingApp.Common.Struct;
-using System;
 using System.Collections.Generic;
+using System;
 
 namespace DrivingApp.Dto
 {
-	public class RouteDto
+	public class SimpleRouteDto
 	{
 		public long? Id { get; set; }
-
-		public ICollection<Coords> Coordinates { get; set; }
 
 		public long StudentId { get; set; }
 
