@@ -10,13 +10,14 @@ export default function ChooseStudentModal(props) {
   const [selectedStudent, setSelectedStudent] = useState('')
 
   useEffect(() => {
+    console.log(props.isHistory)
     getStudentsByInstructor(props.instructorId)
       .then(response => {
         setStudents(response.data);
         setSelectedStudent(response.data[0].id);
       })
       .catch(error => {
-        const errorData = error.response.data && error.response.data.length < 100 ? error.response.data : 'Loading schools unsuccessful'
+        const errorData = error.response.data && error.response.data.length < 100 ? error.response.data : 'Loading students unsuccessful'
         getAlert(errorData, '', 'Cancel', 'cancel');
       });
   }, []);
@@ -24,7 +25,16 @@ export default function ChooseStudentModal(props) {
   const handleOpenMap = () => {
     props.navigation.push('Map', {
       instructorId: props.instructorId,
-      studentId: selectedStudent
+      studentId: selectedStudent,
+      isReadOnly: false
+    });
+    props.handleClose()
+  }
+
+  const handleOpenRoutes = () => {
+    props.navigation.push('Routes', {
+      studentId: selectedStudent,
+      isReadOnly: true
     });
     props.handleClose()
   }
@@ -38,7 +48,7 @@ export default function ChooseStudentModal(props) {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.title}>Choose a student and open map</Text>
+          <Text style={styles.title}>Choose a student</Text>
           <Picker
             selectedValue={selectedStudent}
             onValueChange={(itemValue) => setSelectedStudent(itemValue)}
@@ -49,10 +59,13 @@ export default function ChooseStudentModal(props) {
             ))}
           </Picker>
           <TouchableOpacity style={styles.button} onPress={handleOpenMap}>
-            <Text style={styles.buttonText}>Open Map</Text>
+            <Text style={styles.buttonText}>Open map</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonHistory} onPress={handleOpenRoutes}>
+            <Text style={styles.buttonText}>See route history</Text>
           </TouchableOpacity>
           <Pressable
-            style={[styles.button, styles.buttonClose]}
+            style={styles.buttonClose}
             onPress={props.handleClose}>
             <Text style={styles.textStyle}>Close</Text>
           </Pressable>
@@ -84,10 +97,15 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   button: {
-    borderRadius: 20,
     padding: 10,
     elevation: 2,
-    marginTop: 10
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderColor: globalStyles.palette.beige
+  },
+  buttonClose: {
+    padding: 10,
+    marginTop: 10,
   },
   textStyle: {
     color: globalStyles.palette.darkGreen,
@@ -108,5 +126,12 @@ const styles = StyleSheet.create({
     color: globalStyles.palette.beige,
     fontSize: 22,
     fontFamily: globalStyles.titleText.fontFamily,
+  },
+  buttonHistory: {
+    padding: 10,
+    elevation: 2,
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderColor: globalStyles.palette.beige
   }
 })

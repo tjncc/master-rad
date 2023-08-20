@@ -78,7 +78,7 @@ namespace DrivingApp.Repositories
 
             User user = _context.Users.Where(u => u.Email == registrationRequest.Email).SingleOrDefault();
 
-            var client = new SendGridClient("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");
+            var client = new SendGridClient("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");
             var sendGridMessage = GetSendGridMessage(registrationRequest, user.Id);
 
             var response = await client.SendEmailAsync(sendGridMessage);

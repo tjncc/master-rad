@@ -12,7 +12,9 @@ namespace DrivingApp.Mapper
 			CreateMap<Route, RouteDto>()
 				.ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => ConvertUtcToGmtPlus2(src.StartTime)))
 				.ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => ConvertUtcToGmtPlus2(src.EndTime)));
-
+			CreateMap<Route, SimpleRouteDto>()
+				.ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => ConvertUtcToGmtPlus2(src.StartTime)))
+				.ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => ConvertUtcToGmtPlus2(src.EndTime)));
 			CreateMap<RouteDto, Route>();
 		}
 

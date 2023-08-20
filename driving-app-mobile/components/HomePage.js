@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Pre
 import homeImage from '../img/registration.jpg';
 import { globalStyles } from '../shared/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import ChooseStudentModal from '../modals/ChooseStudentModal';
 
 export default function HomePage(props) {
   const [name, setName] = useState('')
   const [instructorId, setInstructorId] = useState('');
+  const [studentId, setStudentId] = useState('');
   const [role, setRole] = React.useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,7 +19,7 @@ export default function HomePage(props) {
     if (isFocused) {
       checkLoginStatus();
     }
-  }, [[isFocused]]);
+  }, [isFocused]);
 
   const checkLoginStatus = async () => {
     try {
@@ -33,6 +33,10 @@ export default function HomePage(props) {
         setName(name);
         if (role === 'Instructor') {
           setInstructorId(id);
+          setStudentId(null);
+        } else if (role === 'Student') {
+          setStudentId(id);
+          setInstructorId(null);
         }
       } else {
         setIsLoggedIn(false);
@@ -61,10 +65,12 @@ export default function HomePage(props) {
     props.navigation.navigate('Login');
   };
 
-  const openMap = () => {
-    props.navigation.navigate('Map');
-  };
-
+  const handleOpenRoutes = () => {
+    props.navigation.push('Routes', {
+      studentId: studentId,
+      isReadOnly: true
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -94,10 +100,15 @@ export default function HomePage(props) {
                 <Pressable
                   style={styles.buttonModal}
                   onPress={() => setModalVisible(true)}>
-                  <Text style={styles.buttonModalText}>Start a class</Text>
+                  <Text style={styles.buttonModalText}>Choose a student</Text>
                 </Pressable>
                 <ChooseStudentModal modalVisible={modalVisible} handleClose={handleCloseModal} instructorId={instructorId} navigation={props.navigation} />
               </View>
+            }
+            {studentId &&
+              <TouchableOpacity style={styles.buttonModal} onPress={handleOpenRoutes}>
+                <Text style={styles.buttonModalText} >Routes history</Text>
+              </TouchableOpacity>
             }
           </View>
         }
@@ -200,8 +211,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: globalStyles.palette.darkGreen,
     marginBottom: 18,
-    marginLeft: 80,
-    marginRight: 80
+    marginLeft: 50,
+    marginRight: 50
   },
   buttonModalText: {
     fontFamily: globalStyles.titleText.fontFamily,

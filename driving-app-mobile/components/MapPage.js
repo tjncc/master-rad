@@ -3,7 +3,7 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import { globalStyles } from '../shared/theme';
-import { addRoute } from '../services/routeService';
+import { addRoute, getRoute } from '../services/routeService';
 import Moment from 'moment';
 import getAlert from '../helpers/alert';
 
@@ -13,6 +13,8 @@ export default function MapPage(props) {
   const [mapRegion, setMapRegion] = useState(null)
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  const [route, setRoute] = useState(null);
 
   const [pathCoordinates, setPathCoordinates] = useState([]);
   const [classStartTime, setClassStartTime] = useState(null);
@@ -25,7 +27,6 @@ export default function MapPage(props) {
 
 
   useEffect(() => {
-    console.log(props.route.params)
     getLocation();
     Location.watchPositionAsync(
       {
@@ -52,12 +53,36 @@ export default function MapPage(props) {
     let location = await Location.getCurrentPositionAsync({});
     setLocation(location);
 
-    setMapRegion({
-      longitude: location.coords.longitude,
-      latitude: location.coords.latitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    })
+    if (props.route.params.readonly) {
+      getRouteDetails();
+    } else {
+      setMapRegion({
+        longitude: location.coords.longitude,
+        latitude: location.coords.latitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      })
+    }
+  }
+
+  const getRouteDetails = async () => {
+    if (props.route.params.routeId) {
+      getRoute(props.route.params.routeId)
+        .then(response => {
+          setRoute(response.data);
+          setPathCoordinates(response.data.coordinates);
+          setMapRegion({
+            latitude: response.data.coordinates[0].latitude,
+            longitude: response.data.coordinates[0].longitude,
+            latitudeDelta: 0.051,
+            longitudeDelta: 0.051 * ASPECT_RATIO
+          })
+        })
+        .catch(error => {
+          const errorData = error.response.data && error.response.data.length < 100 ? error.response.data : 'Loading route unsuccessful'
+          getAlert(errorData, '', 'Cancel', 'cancel');
+        });
+    }
   }
 
   const startClass = async () => {
@@ -67,6 +92,7 @@ export default function MapPage(props) {
       return;
     }
 
+    setPathCoordinates([]);
     const startTime = new Date();
     setClassOngoing(true);
     setClassStartTime(startTime);
@@ -86,13 +112,11 @@ export default function MapPage(props) {
       startTime: Moment(classStartTime),
       endTime: Moment(new Date())
     }
-    console.log(data);
 
     addRoute(data)
       .then((response) => {
-        console.log(response.data);
         if (response) {
-          getAlert('Class finished', 'You have saved class route successfully', 'Cancel', 'cancel')
+          getAlert('Class finished', 'You have saved class route successfully', 'Okay', 'cancel')
         }
       })
       .catch((error) => {
@@ -112,12 +136,20 @@ export default function MapPage(props) {
         rotateEnabled={true}
         showsUserLocation>
         <Polyline coordinates={pathCoordinates} strokeWidth={5} strokeColor={globalStyles.palette.peach} />
-        {location && <Marker coordinate={location.coords} />}
 
       </MapView>
-      <TouchableOpacity style={styles.buttonContainer} onPress={classOngoing ? endClass : startClass}>
-        <Text style={styles.textButton}>{classOngoing ? 'End Class' : 'Start Class'}</Text>
-      </TouchableOpacity>
+      {!props.route.params.readonly &&
+        <TouchableOpacity style={styles.buttonContainer} onPress={classOngoing ? endClass : startClass}>
+          <Text style={styles.textButton}>{classOngoing ? 'End Class' : 'Start Class'}</Text>
+        </TouchableOpacity>
+      }
+      {props.route.params.readonly && route &&
+        <View style={styles.routeInfo}>
+          <Text style={styles.dateAndTime}>{Moment(route.startTime).format('DD-MM-YYYY')}</Text>
+          <Text style={styles.dateAndTime}>{Moment(route.startTime).format('hh:mm A')} - {Moment(route.endTime).format('hh:mm A')}</Text>
+        </View>
+      }
+
     </View>
   );
 }
@@ -148,5 +180,24 @@ const styles = StyleSheet.create({
     color: globalStyles.palette.beige,
     fontSize: 19,
     fontFamily: globalStyles.titleText.fontFamily,
+  },
+  routeInfo: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: globalStyles.palette.darkGreen,
+    opacity: 0.7,
+    height: 60,
+    borderRadius: 8,
+    position: 'absolute',
+    top: 20,
+    left: 0,
+    right: 0,
+    margin: 80,
+    marginTop: 0
+  },
+  dateAndTime: {
+    fontFamily: globalStyles.titleText.fontFamily,
+    fontSize: 18,
+    color: globalStyles.palette.beige
   }
 });
