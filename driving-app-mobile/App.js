@@ -9,6 +9,9 @@ import { globalStyles } from './shared/theme';
 import LoginPage from './components/LoginPage';
 import MapPage from './components/MapPage';
 import RoutesPreview from './components/RoutesPreview';
+import SchoolsPage from './components/SchoolsPage';
+import SchoolPage from './components/SchoolPage';
+import ProfilePage from './components/ProfilePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +68,33 @@ export default function App() {
           component={RoutesPreview}
           options={{
             headerTitle: () => <Header title='Routes' icon={false} />, headerStyle: {
+              backgroundColor: globalStyles.palette.lightGreen
+            }
+          }}
+        />
+        <Stack.Screen
+          name="Schools"
+          component={SchoolsPage}
+          options={{
+            headerTitle: () => <Header title='Schools' icon={false} />, headerStyle: {
+              backgroundColor: globalStyles.palette.lightGreen
+            }
+          }}
+        />
+        <Stack.Screen
+          name="School"
+          component={SchoolPage}
+          options={{
+            headerTitle: () => <Header title='School' icon={false} />, headerStyle: {
+              backgroundColor: globalStyles.palette.lightGreen
+            }
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfilePage}
+          options={{
+            headerTitle: () => <Header title='School' icon={false} />, headerStyle: {
               backgroundColor: globalStyles.palette.lightGreen
             }
           }}

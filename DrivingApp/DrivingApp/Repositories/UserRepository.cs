@@ -185,7 +185,10 @@ namespace DrivingApp.Repositories
 
 		public async Task<List<Student>> GetStudentsByInstructor(long instructorId)
 		{
-            return await _context.Students.Where(s => s.InstructorId == instructorId).ToListAsync();
+            return await _context.Students.Where(s => s.InstructorId == instructorId &&
+                                                      s.IsVerified &&
+                                                      s.PassedTheory &&
+                                                      !s.PassedDriving).ToListAsync();
 		}
 	}
 }

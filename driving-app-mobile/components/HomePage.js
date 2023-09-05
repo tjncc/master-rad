@@ -5,6 +5,7 @@ import { globalStyles } from '../shared/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import ChooseStudentModal from '../modals/ChooseStudentModal';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function HomePage(props) {
   const [name, setName] = useState('')
@@ -72,6 +73,14 @@ export default function HomePage(props) {
     });
   }
 
+  const handleOpenSchools = () => {
+    props.navigation.push('Schools');
+  }
+
+  const handleOpenProfile = () => {
+    props.navigation.push('Profile');
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.upperHalf}>
@@ -116,8 +125,14 @@ export default function HomePage(props) {
       {isLoggedIn &&
         <View style={styles.footer}>
 
-          <TouchableOpacity onPress={logout}>
-            <Text style={styles.logout}>Log out</Text>
+          <TouchableOpacity style={styles.schoolView} onPress={handleOpenSchools}>
+            <MaterialIcons name="school" size={30} color={globalStyles.palette.beige} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.profileView} onPress={handleOpenProfile}>
+            <MaterialIcons name="person" size={30} color={globalStyles.palette.beige} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logout} onPress={logout}>
+            <MaterialIcons name="logout" size={30} color={globalStyles.palette.beige} />
           </TouchableOpacity>
 
         </View>
@@ -188,19 +203,13 @@ const styles = StyleSheet.create({
   },
   footer: {
     backgroundColor: globalStyles.palette.lightGreen,
-    padding: 20,
+    padding: 12,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    maxHeight: 70
   },
   logout: {
-    left: 120,
-    color: globalStyles.palette.red,
-    fontFamily: globalStyles.titleText.fontFamily,
-    fontSize: 16,
-    borderWidth: 1,
-    padding: 5,
-    borderColor: globalStyles.palette.red,
-    borderRadius: 10,
+    left: 120
   },
   buttonModal: {
     alignItems: 'center',
@@ -218,5 +227,11 @@ const styles = StyleSheet.create({
     fontFamily: globalStyles.titleText.fontFamily,
     color: globalStyles.palette.darkGreen,
     fontSize: 20,
+  },
+  schoolView: {
+    right: 116
+  },
+  profileView: {
+    right: 0
   }
 });

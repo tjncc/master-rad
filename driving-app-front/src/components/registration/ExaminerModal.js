@@ -195,6 +195,8 @@ export default function ExaminerModal(props) {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
                         label='Date of Birth'
+                        minDate={new Date(1920, 1, 1)}
+                        maxDate={new Date(2010, 1, 1)}
                         value={dateOfBirth}
                         onChange={(newValue) => {
                           setDateOfBirth(newValue);
