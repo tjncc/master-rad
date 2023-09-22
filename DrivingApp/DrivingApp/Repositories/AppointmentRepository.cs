@@ -65,7 +65,7 @@ namespace DrivingApp.Repositories
 
 			var instructorId = await _context.Students.Where(c => c.Id == userId).Select(st => st.InstructorId).FirstOrDefaultAsync();
 
-			if ((Role)role == Role.Student)
+			if ((Role)role == Role.Student && instructorId.HasValue)
 			{
 				return await appointments.Where(ap => (ap.StudentId == userId) || 
 											   (ap.InstructorId == instructorId)).ToListAsync();
@@ -130,7 +130,7 @@ namespace DrivingApp.Repositories
 
 			if (hasPassed)
 			{
-				throw new MyException("You can't make an appointment because you have passed the driving exam!");
+				throw new MyException("You can't make an appointment because has passed the driving exam!");
 			}
 
 			var hasLeftClasses = await _context.Appointments.AnyAsync(c => (c.StudentId == appointmentDto.StudentId) &&
@@ -138,7 +138,7 @@ namespace DrivingApp.Repositories
 
 			if (hasLeftClasses)
 			{
-				throw new MyException("You can't have an exam until you finish 40 classes!");
+				throw new MyException("You can't have an exam until student finishes 40 classes!");
 			}
 
 			var hasClassInFuture = await _context.Appointments.AnyAsync(c => (c.StudentId == appointmentDto.StudentId) &&
@@ -146,7 +146,7 @@ namespace DrivingApp.Repositories
 
 			if (hasClassInFuture)
 			{
-				throw new MyException("You can't make an exam appointment before all class apointments that you have!");
+				throw new MyException("You can't make an exam appointment before all class apointments that student has!");
 			}
 
 			if (appointmentDto.StartTime < DateTime.UtcNow)
@@ -159,7 +159,7 @@ namespace DrivingApp.Repositories
 
 			if (hasUnvotedExam)
 			{
-				throw new MyException("You can't make take another exam appointment until examiner votes!");
+				throw new MyException("You can't make another exam appointment until you vote for previous one!");
 			}
 
 			var hasExamInFuture = await _context.Appointments.AnyAsync(c => (c.StudentId == appointmentDto.StudentId) &&
@@ -168,7 +168,7 @@ namespace DrivingApp.Repositories
 
 			if (hasExamInFuture)
 			{
-				throw new MyException("You can't make take another exam appointment!");
+				throw new MyException("You can't make make another exam appointment!");
 			}
 
 			var hasClass = await _context.Appointments.AnyAsync(c => (c.StudentId == appointmentDto.StudentId) &&

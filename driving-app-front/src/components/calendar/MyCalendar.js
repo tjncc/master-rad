@@ -13,6 +13,7 @@ import { CLASS_TYPES } from '../../helpers/classTypeEnum';
 import { getUser } from '../../services/userService';
 import EventDetailsModal from './EventDetailsModal';
 import { EXAM_STATUS } from '../../helpers/examStatusEnum';
+import NewExamModal from './NewExamModal';
 
 export default function MyCalendar() {
   const localizer = momentLocalizer(moment)
@@ -23,6 +24,7 @@ export default function MyCalendar() {
   const [alert, setAlert] = React.useState({ open: false, message: '', severity: '' });
   const [user, setUser] = React.useState(null);
   const [selectedEvent, setSelectedEvent] = React.useState(null);
+  const [role, setRole] = React.useState('');
 
   const eventStyleGetter = (event) => {
     const colorCode = event.studentId.toString() === localStorage.getItem('id') ?
@@ -46,11 +48,13 @@ export default function MyCalendar() {
     async function fetchData() {
       try {
         const token = localStorage.getItem('jwtToken');
+        const role = localStorage.getItem('role');
         if (token) {
           const currentUser = await getUser(localStorage.getItem('id'));
           if (currentUser.data) {
             setUser(currentUser.data);
-
+            setRole(role);
+            console.log(role);
             const response = await getAppointmentsByUser(currentUser.data.id, currentUser.data.role);
 
             const newEvents = response.data.map((appointment) => {
@@ -93,7 +97,7 @@ export default function MyCalendar() {
     if (slot.start < currentTime) {
       return;
     }
-    if (localStorage.getItem('role') === 'Student') {
+    if (localStorage.getItem('role') === 'Student' || localStorage.getItem('role') === 'Examiner') {
       setSelectedSlot(slot);
       setIsModalOpen(true);
     }
@@ -259,8 +263,11 @@ export default function MyCalendar() {
           onSelectSlot={openModal}
           onSelectEvent={handleEventClick}
         />
-        {isModalOpen && (
+        {isModalOpen && role === 'Student' && (
           <NewEventModal selectedSlot={selectedSlot} open={openModal} onClose={closeModal} onSubmit={handleSubmit} />
+        )}
+        {isModalOpen && role === 'Examiner' && (
+          <NewExamModal selectedSlot={selectedSlot} open={openModal} onClose={closeModal} onSubmit={handleSubmit} />
         )}
         {selectedEvent && (
           <EventDetailsModal

@@ -11,7 +11,7 @@ export default function HomePage(props) {
   const [name, setName] = useState('')
   const [instructorId, setInstructorId] = useState('');
   const [studentId, setStudentId] = useState('');
-  const [role, setRole] = React.useState('')
+  const [role, setRole] = React.useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();

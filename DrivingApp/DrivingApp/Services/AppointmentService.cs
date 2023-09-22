@@ -7,6 +7,7 @@ using DrivingApp.Dto;
 using DrivingApp.Interface.Repositories;
 using DrivingApp.Interface.Services;
 using DrivingApp.Model;
+using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -17,12 +18,14 @@ namespace DrivingApp.Services
 		private readonly IAppointmentRepository _appointmentRepo;
 		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
+		private readonly IConfiguration _config;
 
-		public AppointmentService(IAppointmentRepository appointmentRepo, IUserService userService, IMapper mapper)
+		public AppointmentService(IAppointmentRepository appointmentRepo, IUserService userService, IMapper mapper, IConfiguration config)
 		{
 			_appointmentRepo = appointmentRepo;
 			_userService = userService;
 			_mapper = mapper;
+			_config = config;
 		}
 
 		public async Task<AppointmentDto> AddAsync(AppointmentDto appointmentDto)
@@ -72,17 +75,17 @@ namespace DrivingApp.Services
 			}
 
 			var student = await _userService.GetAsync(appointment.StudentId);
-			var client = new SendGridClient("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");
+			var client = new SendGridClient(_config.GetValue<string>("SendGridApiKey"));
 			var templateId = "";
 
 			if (!appointment.IsExam)
 			{
-				templateId = "d-7088fb4024a04e3f93b22b0af148832a";
+				templateId = _config.GetValue<string>("SendGridConfirmExamTemplateId");
 				await _userService.UpdateNumberOfClasses(appointment.StudentId, false);
 			}
 			else
 			{
-				templateId = "d-f2f938b475e045eabe728496c259f89b";
+				templateId = _config.GetValue<string>("SendGridConfirmClassTemplateId");
 				await _userService.UpdateNumberOfExams(appointment.StudentId, true);
 			}
 
@@ -104,11 +107,11 @@ namespace DrivingApp.Services
 			}
 
 			var student = await _userService.GetAsync(appointment.StudentId);
-			var client = new SendGridClient("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");
+			var client = new SendGridClient(_config.GetValue<string>("SendGridApiKey"));
 
 			if (!appointment.IsExam)
 			{
-				var templateId = "d-7088fb4024a04e3f93b22b0af148832a";
+				var templateId = _config.GetValue<string>("SendGridConfirmEventTemplateId");
 				var sendGridMessageStudent = GetSendGridMessage(templateId, false, appointment.StartTime, student.Name, student.Email);
 				await client.SendEmailAsync(sendGridMessageStudent);
 
@@ -123,7 +126,7 @@ namespace DrivingApp.Services
 			}
 			else if (appointment.IsConfirmed && appointment.ExaminerId.HasValue)
 			{
-				var templateId = "d-f2f938b475e045eabe728496c259f89b";
+				var templateId = _config.GetValue<string>("SendGridConfirmClassTemplateId");
 				var sendGridMessageStudent = GetSendGridMessage(templateId, false, appointment.StartTime, student.Name, student.Email);
 				await client.SendEmailAsync(sendGridMessageStudent);
 
@@ -145,8 +148,8 @@ namespace DrivingApp.Services
 			var appointment = await _appointmentRepo.GetAsync(id);
 
 			var student = await _userService.GetAsync(appointment.StudentId);
-			var client = new SendGridClient("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");
-			
+			var client = new SendGridClient(_config.GetValue<string>("SendGridApiKey"));
+
 			var sendGridMessageInstructor = GetSendGridMessageForExamResult(hasPassed, student.Name, student.Email);
 			await client.SendEmailAsync(sendGridMessageInstructor);
 
@@ -163,8 +166,8 @@ namespace DrivingApp.Services
 			SendGridMessage sendGridMessage = new SendGridMessage()
 			{
 				Subject = isConfirmed ? "Appointment approved" : "Appointment removed",
-				From = new EmailAddress("tamara.jancic@hotmail.com", "Tamara"),
-				ReplyTo = new EmailAddress("tamara.jancic@hotmail.com"),
+				From = new EmailAddress(_config.GetValue<string>("SendGridEmail"), "Tamara"),
+				ReplyTo = new EmailAddress(_config.GetValue<string>("SendGridEmail")),
 				TemplateId = templateId,
 
 				Personalizations = new List<Personalization>()
@@ -189,16 +192,16 @@ namespace DrivingApp.Services
 			return sendGridMessage;
 		}
 
-		private SendGridMessage GetSendGridMessageForExamResult(bool hasPassed,string name, string email)
+		private SendGridMessage GetSendGridMessageForExamResult(bool hasPassed, string name, string email)
 		{
 
 			var subject = "Exam";
 
 			SendGridMessage sendGridMessage = new SendGridMessage()
 			{
-				From = new EmailAddress("tamara.jancic@hotmail.com", "Tamara"),
-				ReplyTo = new EmailAddress("tamara.jancic@hotmail.com"),
-				TemplateId = "d-8852eb6aee854c21ba97bb2ce4a260a3",
+				From = new EmailAddress(_config.GetValue<string>("SendGridEmail"), "Tamara"),
+				ReplyTo = new EmailAddress(_config.GetValue<string>("SendGridEmail")),
+				TemplateId = _config.GetValue<string>("SendGridGetResultTemplateId"),
 
 				Personalizations = new List<Personalization>()
 				{

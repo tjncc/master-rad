@@ -1,14 +1,6 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography } from '@mui/material';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import carImage from '../../images/registration.jpg';
@@ -26,7 +18,6 @@ export default function LoginPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = { email, password };
-    console.log(data);
 
     setAlert({
       open: false,
@@ -46,7 +37,6 @@ export default function LoginPage() {
     login(data)
       .then((response) => {
         if (response) {
-          console.log(response.data)
           localStorage.setItem('jwtToken', response.data.token);
           localStorage.setItem('role', response.data.role);
           localStorage.setItem('name', response.data.name);

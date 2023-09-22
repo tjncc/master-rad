@@ -4,6 +4,7 @@ using DrivingApp.Interface.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DrivingApp.Controllers
 {

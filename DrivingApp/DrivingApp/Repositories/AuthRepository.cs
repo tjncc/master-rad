@@ -7,6 +7,7 @@ using DrivingApp.Interface.Services;
 using DrivingApp.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -22,11 +23,13 @@ namespace DrivingApp.Repositories
 	{
 		private readonly DrivingAppContext _context;
 		private readonly ITokenService _tokenService;
+        private readonly IConfiguration _config;
 
-		public AuthRepository(DrivingAppContext context, ITokenService tokenService)
+        public AuthRepository(DrivingAppContext context, ITokenService tokenService, IConfiguration config)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            _config = config ?? throw new ArgumentNullException(nameof(config));
 		}
 
         public async Task<ActionResult<LoginResponseDto>> Login(LoginRequestDto loginRequest)
@@ -55,10 +58,6 @@ namespace DrivingApp.Repositories
                 }
             }
 
-            /*_context.Users.Update(user);
-            await _context.SaveChangesAsync();
-            */
-
             return new LoginResponseDto
             {
                 Id = user.Id,
@@ -78,7 +77,7 @@ namespace DrivingApp.Repositories
 
             User user = _context.Users.Where(u => u.Email == registrationRequest.Email).SingleOrDefault();
 
-            var client = new SendGridClient("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");
+            var client = new SendGridClient(_config.GetValue<string>("SendGridApiKey"));
             var sendGridMessage = GetSendGridMessage(registrationRequest, user.Id);
 
             var response = await client.SendEmailAsync(sendGridMessage);
@@ -181,7 +180,7 @@ namespace DrivingApp.Repositories
 
         private SendGridMessage GetSendGridMessage(RegistrationRequestDto registrationRequest, long id)
 		{
-            var url = "http://localhost:3000/user/verified/" + id;
+            var url = _config.GetValue<string>("VerificationLink") + id;
             var name = registrationRequest.Name;
             var subject = "Verify your email";
             var isInstructor = registrationRequest.Role.Equals(Role.Instructor);
@@ -192,7 +191,7 @@ namespace DrivingApp.Repositories
                 Subject = "Driving App Verification",
                 From = new EmailAddress("tamara.jancic@hotmail.com", "Tamara"),
                 ReplyTo = new EmailAddress("tamara.jancic@hotmail.com"),
-                TemplateId = "d-2cef7f2c34c34998a06e5753bc699961",
+                TemplateId = _config.GetValue<string>("SendGridApiKey"),
                 Personalizations = new List<Personalization>()
                 {
                     new Personalization()

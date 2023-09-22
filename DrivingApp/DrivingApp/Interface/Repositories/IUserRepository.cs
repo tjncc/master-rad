@@ -16,6 +16,8 @@ namespace DrivingApp.Interface.Repositories
 
 		Task<List<Student>> GetStudentsByInstructor(long instructorId);
 
+		Task<List<Student>> GetStudentsForExam(long schoolId);
+
 		Task<List<User>> GetAllUsersAsync();
 
 		void Delete(long id);

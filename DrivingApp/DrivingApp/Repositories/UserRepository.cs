@@ -190,5 +190,14 @@ namespace DrivingApp.Repositories
                                                       s.PassedTheory &&
                                                       !s.PassedDriving).ToListAsync();
 		}
+
+		public async Task<List<Student>> GetStudentsForExam(long schoolId)
+		{
+            return await _context.Students.Where(s => s.SchoolId == schoolId &&
+                                                      s.IsVerified &&
+                                                      s.PassedTheory &&
+                                                      s.NumberOfClasses == 0 &&
+                                                      !s.PassedDriving).ToListAsync();
+        }
 	}
 }

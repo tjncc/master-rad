@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import MapView, { Polyline } from 'react-native-maps';
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import { globalStyles } from '../shared/theme';
@@ -149,7 +149,6 @@ export default function MapPage(props) {
           <Text style={styles.dateAndTime}>{Moment(route.startTime).format('hh:mm A')} - {Moment(route.endTime).format('hh:mm A')}</Text>
         </View>
       }
-
     </View>
   );
 }

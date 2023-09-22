@@ -24,17 +24,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const localizer = momentLocalizer(moment);
-
 export default function NewEventModal({ selectedSlot, open, onClose, onSubmit }) {
   const classes = useStyles();
   const [student, setStudent] = React.useState('');
   const [instructor, setInstructor] = React.useState('');
-  const [examiners, setExaminers] = React.useState([]);
-  const [examiner, setExaminer] = React.useState('');
   const [classType, setClassType] = React.useState('');
-  const [isExam, setIsExam] = React.useState(false);
-
   React.useEffect(() => {
     async function fetchData() {
       try {
@@ -42,6 +36,7 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
         if (token) {
           const studentResponse = await getUser(localStorage.getItem('id'));
           setStudent(studentResponse.data);
+          console.log(studentResponse)
 
           if (studentResponse) {
             const instructorResponse = await getUser(studentResponse.data.instructorId);
@@ -56,44 +51,16 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
     fetchData();
   }, []);
 
-
-  const handleIsExamChange = (event) => {
-    event.preventDefault();
-    setIsExam(event.target.value)
-
-    const startTime = moment(selectedSlot.start);
-    const endTime = moment(selectedSlot.start).add(1, 'hour');
-
-    getAvailableExaminers(startTime, endTime)
-      .then(response => {
-        setExaminers(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   const handleSubmitForm = (event) => {
     event.preventDefault();
-    if (!isExam) {
-      const eventData = {
-        classType: classType,
-        studentId: student.id,
-        instructorId: instructor.id,
-        startTime: moment(selectedSlot.start),
-        endTime: moment(selectedSlot.start).add(1, 'hour')
-      };
-      onSubmit(eventData);
-    } else {
-      const eventData = {
-        isExam: true,
-        studentId: student.id,
-        examinerId: examiner.id,
-        startTime: moment(selectedSlot.start),
-        endTime: moment(selectedSlot.start).add(1, 'hour')
-      };
-      onSubmit(eventData);
-    }
+    const eventData = {
+      classType: classType,
+      studentId: student.id,
+      instructorId: instructor.id,
+      startTime: moment(selectedSlot.start),
+      endTime: moment(selectedSlot.start).add(1, 'hour')
+    };
+    onSubmit(eventData);
 
     console.log(eventData);
   };
@@ -106,60 +73,22 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
 
             <form onSubmit={handleSubmitForm}>
               <div className={classes.formGroup}>
-                {student.numberOfClasses === 0 ? (
-                  <div className={classes.formGroup}>
-                    <FormControl fullWidth>
-                      <InputLabel>Class or Exam</InputLabel>
-                      <Select
-                        required
-                        value={isExam}
-                        label='Class or Exam'
-                        onChange={handleIsExamChange}
-                      >
-                        <MenuItem value={false}>Class</MenuItem>
-                        <MenuItem value={true}>Exam</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </div>
-                ) : (
-                  <div className={classes.formGroup}>
-                    <Typography variant='h5' style={{ textAlign: 'center' }}>
-                      Driving class
-                    </Typography>
-                  </div>
-                )}
+                <div className={classes.formGroup}>
+                  <Typography variant='h5' style={{ textAlign: 'center' }}>
+                    Driving class
+                  </Typography>
+                </div>
               </div>
               <div className={classes.formGroup}>
                 <Typography variant='h7'>
                   Student: {student.name} {student.lastName}
                 </Typography>
               </div>
-              {!isExam &&
-                <div className={classes.formGroup}>
-                  <Typography variant='h7'>
-                    Instructor: {instructor.name} {instructor.lastName}
-                  </Typography>
-                </div>
-              }
-              {student.numberOfClasses === 0 && isExam && (
-                <div className={classes.formGroup}>
-                  <FormControl fullWidth>
-                    <InputLabel>Examiner</InputLabel>
-                    <Select
-                      required
-                      value={examiner.id}
-                      label='Examiner'
-                      onChange={(e) => setExaminer(e.target.value)}
-                    >
-                      {examiners && examiners.map((option) => (
-                        <MenuItem key={option.id} value={option}>
-                          {option.name} {option.lastName}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
+              <div className={classes.formGroup}>
+                <Typography variant='h7'>
+                  Instructor: {instructor.name} {instructor.lastName}
+                </Typography>
+              </div>
               <div className={classes.formGroup}>
                 <Typography variant='h7'>
                   Date: {selectedSlot.start && moment(selectedSlot.start).format('DD-MM-YYYY')}
@@ -175,23 +104,21 @@ export default function NewEventModal({ selectedSlot, open, onClose, onSubmit })
                   End: {selectedSlot.start && moment(selectedSlot.start).add(1, 'hour').format('hh:mm A')}
                 </Typography>
               </div>
-              {!isExam &&
-                <FormControl fullWidth>
-                  <InputLabel>Class type</InputLabel>
-                  <Select
-                    required
-                    value={classType}
-                    label='Class Type'
-                    onChange={(e) => setClassType(e.target.value)}
-                  >
-                    {CLASS_TYPES.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              }
+              <FormControl fullWidth>
+                <InputLabel>Class type</InputLabel>
+                <Select
+                  required
+                  value={classType}
+                  label='Class Type'
+                  onChange={(e) => setClassType(e.target.value)}
+                >
+                  {CLASS_TYPES.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <Grid style={{ margin: '0 auto', display: 'block', textAlign: 'center' }}>
                 <Button variant='contained' type='submit'
                   style={{ margin: '1rem 0rem', border: '1px solid #8E9775', backgroundColor: '#8E9775', color: 'white', padding: '0.5rem 1rem' }}
