@@ -96,7 +96,7 @@ export default function EventDetailsModal({ selectedEvent, open, onClose, confir
               </Grid>
             </Grid>
           }
-          {selectedEvent.isConfirmed &&
+          {selectedEvent.isConfirmed && selectedEvent.isExam &&
             <Grid item container direction='row'>
               <Grid item xs={6}>
                 <Typography variant='h6'>Exam status:</Typography>
@@ -127,7 +127,8 @@ export default function EventDetailsModal({ selectedEvent, open, onClose, confir
             </Grid>
           }
           <Grid style={{ margin: '0 auto', display: 'block', textAlign: 'center' }}>
-            {!selectedEvent.isConfirmed && localStorage.getItem('role') !== 'Student' && !isEventInPast(selectedEvent.end) &&
+            {((!selectedEvent.isConfirmed && localStorage.getItem('role') === 'Instructor' && !isEventInPast(selectedEvent.end)) ||
+              (!selectedEvent.isConfirmed && selectedEvent.isExam && localStorage.getItem('role') === 'Student' && !isEventInPast(selectedEvent.end))) &&
               <Grid>
                 <Button
                   onClick={confirm}
@@ -180,7 +181,7 @@ export default function EventDetailsModal({ selectedEvent, open, onClose, confir
                 </Button>
               </Grid>
             }
-            {(selectedEvent.isConfirmed || localStorage.getItem('role') === 'Student') && !isEventInPast(selectedEvent.end) &&
+            {selectedEvent.isConfirmed && !isEventInPast(selectedEvent.end) &&
               <Grid>
                 <Button
                   onClick={refuse}

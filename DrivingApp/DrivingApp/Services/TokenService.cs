@@ -11,8 +11,8 @@ using System.Text;
 
 namespace DrivingApp.Services
 {
-	public class TokenService : ITokenService
-	{
+    public class TokenService : ITokenService
+    {
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration config)
         {
@@ -27,11 +27,6 @@ namespace DrivingApp.Services
             };
 
             var roles = Enum.GetValues(typeof(Role));
-            //claims.AddRange(roles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
-            /*            foreach (Role role in roles)
-                        {
-                            claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, role.ToString()));
-                        };*/
             claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString()));
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

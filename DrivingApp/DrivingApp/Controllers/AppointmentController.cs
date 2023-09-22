@@ -4,6 +4,7 @@ using DrivingApp.Interface.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DrivingApp.Controllers
 {
@@ -19,6 +20,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpGet("{id}")]
+		[Authorize(Roles = "Student, Examiner, Instructor")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -30,6 +32,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpPost()]
+		[Authorize(Roles = "Student, Examiner")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,6 +44,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpGet("user/{id}/{role}")]
+		[Authorize(Roles = "Student, Examiner, Instructor")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -52,6 +56,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpPut("confirm/{id}")]
+		[Authorize(Roles = "Student, Examiner, Instructor")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,6 +68,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpDelete("remove/{id}")]
+		[Authorize(Roles = "Student, Examiner, Instructor")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,6 +80,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpPut("exam-result/{id}/{hasPassed}")]
+		[Authorize(Roles = "Examiner")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]

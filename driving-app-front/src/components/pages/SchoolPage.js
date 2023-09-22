@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { getSchool, updateSchool } from '../../services/schoolService';
 import { getInstructorsBySchool } from '../../services/userService';
-import Button from '@mui/material/Button'
 import {
   List,
   ListItem,
@@ -11,7 +10,8 @@ import {
   Grid,
   Paper,
   Typography,
-  TextField
+  TextField,
+  Button
 } from '@mui/material';
 import { CATEGORIES } from '../../helpers/categoryEnum'
 import InstructorModal from '../registration/InstructorModal';
@@ -220,13 +220,11 @@ export default function SchoolPage() {
           {school &&
             <div style={{ maxHeight: '85vh', overflow: 'auto' }}>
               {localStorage.getItem('role') === 'Admin' &&
-                <div>
+                <Grid>
                   <Button
-                    style={{
-                      margin: '2%',
-                      color: '#E28F83',
-                      border: '1px solid #E28F83',
-                      padding: '8px 12px'
+                    variant='outline' style={{
+                      backgroundColor: '#FAF2DA',
+                      margin: '0.6rem 1rem'
                     }}
                     onClick={handleOpenRegistrationDialog}>
                     Add instructor
@@ -237,7 +235,7 @@ export default function SchoolPage() {
                     schoolName={school.name}
                     schoolId={school.id}
                     onUpdateInstructors={updateInstructors} />
-                </div>
+                </Grid>
               }
               <Typography variant='h6' gutterBottom style={{ backgroundColor: '#FFFFFF' }}>
                 List of instructors in this school

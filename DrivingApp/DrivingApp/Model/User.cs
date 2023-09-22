@@ -26,6 +26,5 @@ namespace DrivingApp.Model
 		public byte[] PasswordSalt { get; set; }
 
 		public bool IsVerified { get; set; }
-
 	}
 }

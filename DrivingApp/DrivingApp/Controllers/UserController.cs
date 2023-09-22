@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using DrivingApp.Model;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DrivingApp.Controllers
 {
@@ -54,7 +55,20 @@ namespace DrivingApp.Controllers
 			return Ok(instructors);
 		}
 
+		[HttpGet("students/exam/{schoolId}")]
+		[Authorize(Roles = "Examiner")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+		public async Task<ActionResult<List<UserResponseDto>>> GetStudentsForExam(long schoolId)
+		{
+			var instructors = await _userService.GetStudentsForExam(schoolId);
+			return Ok(instructors);
+		}
+
 		[HttpGet("all")]
+		[Authorize(Roles = "Admin")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,6 +80,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpDelete("{id}")]
+		[Authorize(Roles = "Admin")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -77,6 +92,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpPut("{id}")]
+		[Authorize(Roles = "Admin, Student, Instructor, Examiner")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -88,6 +104,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpPut("{studentId}/{instructorId}")]
+		[Authorize(Roles = "Student")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -110,6 +127,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpPut("pass-theory/{id}")]
+		[Authorize(Roles = "Admin")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -121,6 +139,7 @@ namespace DrivingApp.Controllers
 		}
 
 		[HttpGet("examiners")]
+		[Authorize(Roles = "Student")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]

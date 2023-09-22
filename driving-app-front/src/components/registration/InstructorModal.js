@@ -96,8 +96,7 @@ export default function InstructorModal(props) {
           <CssBaseline />
           <Box
             style={{
-              my: 5,
-              mx: 4,
+              margin: '2.5%',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -109,7 +108,7 @@ export default function InstructorModal(props) {
             <Typography component='h1' variant='h6'>
               Register Instructor
             </Typography>
-            <Box component='form' noValidate onSubmit={handleSubmit} style={{ mt: 3 }}>
+            <Box component='form' noValidate onSubmit={handleSubmit} style={{ margin: '1%' }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -121,6 +120,7 @@ export default function InstructorModal(props) {
                     id='name'
                     label='First Name'
                     autoFocus
+                    variant='outlined'
                     onChange={(e) => setName(e.target.value)}
                   />
                 </Grid>
@@ -132,6 +132,7 @@ export default function InstructorModal(props) {
                     value={lastName}
                     label='Last Name'
                     name='lastName'
+                    variant='outlined'
                     autoComplete='family-name'
                     onChange={(e) => setLastName(e.target.value)}
                   />
@@ -145,6 +146,7 @@ export default function InstructorModal(props) {
                     label='Email Address'
                     name='email'
                     autoComplete='email'
+                    variant='outlined'
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Grid>
@@ -154,6 +156,7 @@ export default function InstructorModal(props) {
                     value={schoolName}
                     disabled
                     fullWidth
+                    variant='outlined'
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -165,6 +168,7 @@ export default function InstructorModal(props) {
                     label='JMBG'
                     name='jmbg'
                     type='number'
+                    variant='outlined'
                     onChange={(e) => setJmbg(e.target.value)}
                   />
                 </Grid>
@@ -177,6 +181,7 @@ export default function InstructorModal(props) {
                     label='Phone Number'
                     name='phoneNumber'
                     type='number'
+                    variant='outlined'
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </Grid>
@@ -229,7 +234,7 @@ export default function InstructorModal(props) {
           </Box>
         </Container>
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ margin: '0.5% 4%' }}>
         <Button
           type='submit'
           style={{ color: '#8E9775', border: '1px solid #8E9775' }}

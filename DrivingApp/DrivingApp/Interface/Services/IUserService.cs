@@ -1,5 +1,4 @@
 ﻿using DrivingApp.Dto;
-using DrivingApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,6 +14,8 @@ namespace DrivingApp.Interface.Services
 		Task<List<UserResponseDto>> GetInstructorsBySchool(long schoolId, short categoryId);
 
 		Task<List<UserResponseDto>> GetStudentsByInstructor(long instructorId);
+
+		Task<List<UserResponseDto>> GetStudentsForExam(long schoolId);
 
 		Task<List<UserResponseDto>> GetAllUsersAsync();
 

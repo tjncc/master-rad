@@ -39,6 +39,11 @@ namespace DrivingApp.Services
 			return _mapper.Map<List<UserResponseDto>>(instructors);
 		}
 
+		public async Task<List<UserResponseDto>> GetStudentsForExam(long schoolId)
+		{
+			var students = await _userRepository.GetStudentsForExam(schoolId);
+			return _mapper.Map<List<UserResponseDto>>(students);
+		}
 		public async Task<List<UserResponseDto>> GetAllUsersAsync()
 		{
 			var users = await _userRepository.GetAllUsersAsync();
@@ -90,7 +95,7 @@ namespace DrivingApp.Services
 		}
 
 		public async Task<List<UserResponseDto>> GetStudentsByInstructor(long instructorId)
-{
+		{
 			var students = await _userRepository.GetStudentsByInstructor(instructorId);
 			return _mapper.Map<List<UserResponseDto>>(students);
 		}
